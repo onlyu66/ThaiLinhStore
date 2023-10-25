@@ -1,0 +1,31 @@
+.item{
+    width: 19%;
+    background-color: white;
+}
+.appleReseller div, .prominentPhone div div, .prominentSpeakersHeadphones div{
+    background-color: #208f89;
+    padding: 6px 40px 5px 100px;
+    font-weight: 700;
+    color: white;
+}
+
+.prominentPhone div ul li{
+    margin: 3px;
+    background-color: #ffffff;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid rgb(174, 172, 172);
+    font-size: 14.5px;
+    cursor: pointer;
+}
+.prominentPhone div ul li:last-child{
+    background-color: #208f89;
+    color: white;
+}
+.prominentPhone div ul li:hover{
+    background-color: #208f89;
+    color: white;
+}
+.prominentPhone div ul li:active{
+    font-weight: 700;
+}

@@ -1,0 +1,66 @@
+.container {
+  display: grid;
+  grid-template-areas:
+    "sideBar header"
+    "sideBar content";
+  grid-template-columns: 16% 84%;
+  grid-template-rows: 10% 90%;
+}
+.sideBar {
+  grid-area: sideBar;
+  height: 750px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+.sideBar ul .link{
+  text-decoration: none;
+}
+.sideBar ul li{
+  cursor: pointer;
+  padding: 7px 7px 7px 18px;
+  margin: 5px 0;
+  margin-left: -10px;
+  
+}
+.sideBar ul li:hover{
+  font-weight: 500;
+  color: white;
+}
+.sideBar div:nth-child(1) ul li:hover{
+  border-left: 4px solid rgb(255, 244, 244);
+}
+.header {
+  grid-area: header;
+  border-bottom: 1px solid black;
+  /* height: 100%; */
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background-color: white;
+
+}
+.content {
+  grid-area: content;
+}
+.inputSearch{
+  border-radius: 20px;
+  position: relative;
+}
+.inputSearch::placeholder{
+  /* margin-left: 40px; */
+  padding-left: 25px;
+}
+.searchIcon{
+  position: absolute;
+  left: 42.5%;
+  top: 36%;
+  color: rgb(157, 155, 155);
+}
+.content{
+  
+}
