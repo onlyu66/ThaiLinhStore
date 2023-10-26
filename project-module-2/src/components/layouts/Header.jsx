@@ -15,7 +15,7 @@ export default function Header() {
   // const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div className="container">
       <header className="relative headers">
         <nav aria-label="Top" className="px-4 sm:px-6 lg:px-8 head">
           <div className="border-b border-gray-200">

@@ -3,9 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
   productAction,
-  postProducts,
   deleteProducts,
-  putProducts,
 } from "../../../../redux/productSlice";
 import Spin from "../../../others/Spin";
 import styles from "../../../styles/ProductsManagement.module.css";

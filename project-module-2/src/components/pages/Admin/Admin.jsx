@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
 import { Link, Outlet } from "react-router-dom";
@@ -11,13 +11,19 @@ function Admin() {
         <div>
           <h3>THAILINH STORE</h3>
           <ul className="list-none m-0 p-0 mt-5 text-slate-400">
-            <Link to={"/admin/dashboard"} className={clsx(styles.link,"text-slate-400")}>
+            <Link
+              to={"/admin/dashboard"}
+              className={clsx(styles.link, "text-slate-400")}
+            >
               <li>
                 <i className="fa-solid fa-gauge mr-1"></i>Dashboard
               </li>
             </Link>
 
-            <Link to={"/admin/product"} className={clsx(styles.link,"text-slate-400")}>
+            <Link
+              to={"/admin/product"}
+              className={clsx(styles.link, "text-slate-400")}
+            >
               <li>
                 <i className="fa-brands fa-uncharted mr-1"></i>Products
               </li>

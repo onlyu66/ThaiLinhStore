@@ -148,6 +148,7 @@ function ProductForm(props, { selectProduct }) {
                 <img
                   src={URL.createObjectURL(image)}
                   className="w-20 h-20 flex"
+                  alt="This is a image"
                 />
               </div>
             ))}

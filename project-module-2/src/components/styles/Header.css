@@ -1,4 +1,3 @@
-
 .searchInput {
   box-shadow: 1px 2px 7px rgb(52, 52, 52);
   border-radius: 18px !important;
@@ -33,7 +32,7 @@
   height: 50px;
   object-fit: contain;
   /* object-position: 0px -12px; */
- margin-top: 10px;
+  margin-top: 10px;
   margin-left: -30px;
 }
 .logos p {
@@ -41,44 +40,46 @@
   font-size: 23px;
   margin-left: -40px;
   font-weight: 700;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
   color: rgb(63, 63, 63);
 }
 
-.checkOrder{
+.checkOrder {
   width: 150px;
-  background-color: #208f89 ;
+  background-color: #208f89;
   height: 50px;
   display: flex;
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
 }
-.checkOrder:hover{
+.checkOrder:hover {
   background-color: rgb(0, 132, 132);
   font-weight: 400;
 }
-.checkOrder p{
+.checkOrder p {
   font-size: 14px;
   color: #ffff;
   flex: 2;
   margin-top: -5px;
   margin-left: 9px;
 }
-.checkOrder i{
+.checkOrder i {
   flex: 1;
   /* margin-top: 10px; */
   color: #ffff;
 }
-.cart{
+.cart {
   color: #208f89;
 }
-.cart:hover{
+.cart:hover {
   color: rgb(0, 132, 132);
 }
-.quantity{
+.quantity {
   color: #208f89;
 }
-.headers{
+.headers {
   background-color: #fafafa;
+  
 }
+
