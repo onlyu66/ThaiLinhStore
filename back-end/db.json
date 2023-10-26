@@ -5,28 +5,32 @@
       "email": "fakeroi66@gmail.com",
       "password": "linh555555",
       "confirmPassword": "linh555555",
-      "id": 1
+      "id": 1,
+      "active": false
     },
     {
       "userName": "name",
       "email": "fakeroi66@gmail.com",
       "password": "12345678",
       "confirmPassword": "12345678",
-      "id": 2
+      "id": 2,
+      "active": false
     },
     {
       "userName": "admin",
       "email": "admin@gmail.com",
       "password": "admin123",
       "confirmPassword": "admin123",
-      "id": 3
+      "id": 3,
+      "active": false
     },
     {
       "userName": "thailinh66",
       "email": "ngoclinhthai8@gmail.com",
       "password": "linh662002",
       "confirmPassword": "linh662002",
-      "id": 4
+      "id": 4,
+      "active": false
     }
   ],
   "products": [

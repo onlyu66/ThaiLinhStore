@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
@@ -8,8 +8,21 @@ import { Link } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 import image from "../../assets/images/logos/Logo.png";
 import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUsers, patchUsers } from "../../redux/userSlice";
 
 function Login() {
+  const users = useSelector((state) => state.users.users);
+  // console.log(users);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+  const [activeUser, setActiveUser] = useState({
+    id: 0,
+    active: false,
+  });
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -22,18 +35,38 @@ function Login() {
     }),
     onSubmit: async (values) => {
       try {
-        const reponse = await axios.get("http://localhost:8000/users");
-        let users = reponse.data;
-        const user = users.find(
+        // const reponse = await axios.get("http://localhost:8000/users");
+        // let users = reponse.data;
+        // console.log(users);
+        const isUser = users.find(
           (user) =>
             (user.userName === values.userName ||
               user.email === values.userName) &&
             user.password === values.password
         );
-        if (user && values.userName !== "admin") {
+        users.map((user) => {
+          if (isUser) {
+            setActiveUser(() => {
+              return {
+                ...activeUser,
+                active: !user.avtive,
+                id: user.id,
+              };
+            });
+          }
+          // console.log(isUser);
+        });
+        console.log(activeUser);
+        if (isUser && values.userName !== "admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/");
-        } else if (user && values.userName === "admin") {
+          // setActiveUser({
+          //   ...activeUser,
+          //   active: true,
+          //   id: user.id,
+          // });
+          dispatch(patchUsers({ activeUser, id: activeUser.id }));
+        } else if (isUser && values.userName === "admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/admin");
         } else {
@@ -44,6 +77,7 @@ function Login() {
       }
     },
   });
+
   return (
     <div className={styles.body}>
       <div className={clsx("container", styles.container)}>
