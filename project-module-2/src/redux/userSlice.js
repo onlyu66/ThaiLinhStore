@@ -9,16 +9,16 @@ export const fetchUsers = createAsyncThunk("fetchUsers", async () => {
 //   const reponse = await axios.get("http://localhost:8000/users");
 //   return reponse.data;
 // });
-export const postUsers = createAsyncThunk(
-  "postUsers",
-  async (user) => {
-    const response = await axios.post(
-      "http://localhost:8000/users",
-      user
-    );
-    return response.data;
-  }
-);
+// export const postUsers = createAsyncThunk(
+//   "postUsers",
+//   async (user) => {
+//     const response = await axios.post(
+//       "http://localhost:8000/users",
+//       user
+//     );
+//     return response.data;
+//   }
+// );
 export const deleteUsers = createAsyncThunk(
   "deleteUsers",
   async (idUser) => {
@@ -27,7 +27,7 @@ export const deleteUsers = createAsyncThunk(
   }
 );
 export const patchUsers = createAsyncThunk(
-  "putUsers",
+  "patchUsers",
   async (objUser) => {
     const response = await axios.patch(
       `http://localhost:8000/users/${objUser.id}`,
@@ -75,9 +75,9 @@ const userSlice = createSlice({
     // builder.addCase(onNavigateNext.fulfilled, (state) => {
     //   state.currentPage++;
     // });
-    builder.addCase(postUsers.fulfilled, (state, action) => {
-      state.users.push(action.payload);
-    });
+    // builder.addCase(postUsers.fulfilled, (state, action) => {
+    //   state.users.push(action.payload);
+    // });
     builder.addCase(deleteUsers.fulfilled, (state, action) => {
       state.users = state.users.filter(
         (user) => user.id !== action.payload

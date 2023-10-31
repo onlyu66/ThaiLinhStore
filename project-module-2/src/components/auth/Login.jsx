@@ -9,20 +9,26 @@ import styles from "../styles/Login.module.css";
 import image from "../../assets/images/logos/Logo.png";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers, patchUsers } from "../../redux/userSlice";
+import { fetchUsers } from "../../redux/userSlice";
+import { postUserLogged } from "../../redux/userLoggedSlice";
 
 function Login() {
   const users = useSelector((state) => state.users.users);
   // console.log(users);
-
+  // const userLogged = useSelector((state) => state.userLogged.userLogged);
+  const [activeUser, setActiveUser] = useState({
+    id: 0,
+    userName: "",
+    email: "",
+    image: "",
+    password: "",
+    confirmPassword: "",
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
   }, [dispatch]);
-  const [activeUser, setActiveUser] = useState({
-    id: 0,
-    active: false,
-  });
+
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
@@ -49,23 +55,22 @@ function Login() {
             setActiveUser(() => {
               return {
                 ...activeUser,
-                active: !user.avtive,
                 id: user.id,
+                userName: user.userName,
+                email: user.email,
+                image: user.image,
+                password: user.password,
+                confirmPassword: user.confirmPassword,
               };
             });
           }
-          // console.log(isUser);
+          console.log(isUser);
         });
         console.log(activeUser);
         if (isUser && values.userName !== "admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/");
-          // setActiveUser({
-          //   ...activeUser,
-          //   active: true,
-          //   id: user.id,
-          // });
-          dispatch(patchUsers({ activeUser, id: activeUser.id }));
+          dispatch(postUserLogged(activeUser));
         } else if (isUser && values.userName === "admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/admin");

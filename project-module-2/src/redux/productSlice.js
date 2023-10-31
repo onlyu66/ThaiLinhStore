@@ -59,6 +59,9 @@ const productSlice = createSlice({
     onClickCurentPage: (state, action) => {
       state.currentPage = action.payload;
     },
+    searchProduct: (state, action) => {
+      
+    }
   },
   extraReducers: (builder) => {
     builder

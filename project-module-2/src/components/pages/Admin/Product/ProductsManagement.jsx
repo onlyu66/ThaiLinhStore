@@ -11,8 +11,8 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
 import Button from "react-bootstrap/Button";
-import { Switch } from "antd";
-import { Select } from "antd";
+// import { Switch } from "antd";
+// import { Select } from "antd";
 import ProductForm from "./ProductForm";
 
 // function AddProduct({ selectProduct }) {
@@ -37,7 +37,7 @@ import ProductForm from "./ProductForm";
 //   );
 // }
 
-function ProductsManagement() {
+function ProductsManagement({ selectItem }) {
   const products = useSelector((state) => state.products.products);
   const status = useSelector((state) => state.products.status);
   // console.log(products);
@@ -91,13 +91,24 @@ function ProductsManagement() {
   const handleCurrentPage = (_p) => {
     dispatch(productAction.onClickCurentPage(_p));
   };
-  return (
+  console.log(selectItem);
+  // const options = ["Name"]
+  return selectItem === "products" ? (
     <div>
-      <div>
+      <div className={clsx(styles.sortAdd,"flex justify-between")}>
+        <div className={styles.sort}>
+          <select>
+            <option value="">Sort</option>
+            <option value="Name">Name</option>
+            <option value="Price">Price</option>
+            <option value="Quantity">Quantity</option>
+          </select>
+        </div>
+        <div>
         <Button
           variant="primary"
           onClick={() => setModalShow(true)}
-          className={styles.button}
+          className={clsx(styles.button,"!bg-neutral-900 !text-white")}
         >
           {selectProduct ? "Update Product" : "Add Product"}
         </Button>
@@ -107,6 +118,7 @@ function ProductsManagement() {
           onHide={() => setModalShow(false)}
           selectProduct={selectProduct}
         />
+        </div>
       </div>
       <table
         className={clsx(
@@ -117,12 +129,12 @@ function ProductsManagement() {
       >
         <thead className="table-dark">
           <tr>
-            <th>STT</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th colSpan={3}>Action</th>
+            <th className="bg-neutral-900 text-white">STT</th>
+            <th className="bg-neutral-900 text-white">Image</th>
+            <th className="bg-neutral-900 text-white">Name</th>
+            <th className="bg-neutral-900 text-white">Price</th>
+            <th className="bg-neutral-900 text-white">Quantity</th>
+            <th className="bg-neutral-900 text-white" colSpan={3}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -186,6 +198,8 @@ function ProductsManagement() {
         </tfoot>
       </table>
     </div>
+  ) : (
+    <></>
   );
 }
 

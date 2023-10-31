@@ -21,6 +21,7 @@ const App = () => (
     filterOption={(inputValue, option) =>
       option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
     }
+    
     className="searchInput"
   />
 );

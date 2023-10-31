@@ -6,7 +6,9 @@
       "password": "linh555555",
       "confirmPassword": "linh555555",
       "id": 1,
-      "active": false
+      "active": false,
+      "role": "User",
+      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
     },
     {
       "userName": "name",
@@ -14,15 +16,19 @@
       "password": "12345678",
       "confirmPassword": "12345678",
       "id": 2,
-      "active": false
+      "active": false,
+      "role": "User",
+      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
     },
     {
-      "userName": "admin",
+      "userName": "Admin",
       "email": "admin@gmail.com",
       "password": "admin123",
       "confirmPassword": "admin123",
       "id": 3,
-      "active": false
+      "active": false,
+      "role": "Admin",
+      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
     },
     {
       "userName": "thailinh66",
@@ -30,7 +36,19 @@
       "password": "linh662002",
       "confirmPassword": "linh662002",
       "id": 4,
-      "active": false
+      "active": false,
+      "role": "User",
+      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
+    }
+  ],
+  "userLogged": [
+    {
+      "id": 1,
+      "userName": "",
+      "email": "",
+      "image": "",
+      "password": "",
+      "confirmPassword": ""
     }
   ],
   "products": [
