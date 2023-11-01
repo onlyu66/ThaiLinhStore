@@ -1,6 +1,10 @@
 .item {
   width: 19%;
   background-color: white;
+  text-align: center;
+}
+.item img{
+  margin: 0 auto  ;
 }
 .appleReseller div,
 .prominentPhone div div,

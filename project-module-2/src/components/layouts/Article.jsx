@@ -24,7 +24,7 @@ import apple from "../../assets/images/icons/apple-logo.png";
 import phoneCase from "../../assets/images/icons/back-camera.png";
 import phoneScreenProtector from "../../assets/images/icons/smartphone.png";
 import gimbal from "../../assets/images/icons/gimbal.png";
-import nhh from "../../assets/images/customer/vdv-nguyen-huy-hoang.jpg";
+// import nhh from "../../assets/images/customer/vdv-nguyen-huy-hoang.jpg";
 
 function Article() {
   const products = useSelector((state) => state.products.products);
@@ -73,7 +73,6 @@ function Article() {
           {products.map((element) => {
             if (
               element.brand === "Apple" &&
-              element.saling &&
               element.type === "phone"
             ) {
               return (

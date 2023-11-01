@@ -14,6 +14,8 @@ import Button from "react-bootstrap/Button";
 // import { Switch } from "antd";
 // import { Select } from "antd";
 import ProductForm from "./ProductForm";
+import ViewProduct from "./ViewProduct";
+import { Popover, ConfigProvider } from "antd";
 
 // function AddProduct({ selectProduct }) {
 //   const [modalShow, setModalShow] = useState(false);
@@ -42,10 +44,12 @@ function ProductsManagement({ selectItem }) {
   const status = useSelector((state) => state.products.status);
   // console.log(products);
   const [selectProduct, setSelectProduct] = useState("");
-
+  // console.log(selectProduct);
   const [modalShow, setModalShow] = useState(false);
+  const [viewProduct, setViewProduct] = useState(false);
+  // console.log(modalShow, "aaa");
 
-  console.log(modalShow);
+  // console.log(modalShow);
   const productsPerPage = useSelector(
     (state) => state.products.productsPerPage
   );
@@ -91,11 +95,11 @@ function ProductsManagement({ selectItem }) {
   const handleCurrentPage = (_p) => {
     dispatch(productAction.onClickCurentPage(_p));
   };
-  console.log(selectItem);
+  // console.log(selectItem);
   // const options = ["Name"]
   return selectItem === "products" ? (
     <div>
-      <div className={clsx(styles.sortAdd,"flex justify-between")}>
+      <div className={clsx(styles.sortAdd, "flex justify-between")}>
         <div className={styles.sort}>
           <select>
             <option value="">Sort</option>
@@ -105,19 +109,22 @@ function ProductsManagement({ selectItem }) {
           </select>
         </div>
         <div>
-        <Button
-          variant="primary"
-          onClick={() => setModalShow(true)}
-          className={clsx(styles.button,"!bg-neutral-900 !text-white")}
-        >
-          {selectProduct ? "Update Product" : "Add Product"}
-        </Button>
+          <Button
+            variant="primary"
+            onClick={() => setModalShow(!modalShow)}
+            className={clsx(styles.button, "!bg-neutral-900 !text-white")}
+          >
+            {selectProduct ? "Update Product" : "Add Product"}
+          </Button>
 
-        <ProductForm
-          show={modalShow}
-          onHide={() => setModalShow(false)}
-          selectProduct={selectProduct}
-        />
+          <ProductForm
+            show={modalShow}
+            onHide={() => setModalShow(!modalShow)}
+            selectProduct={selectProduct}
+            setSelectProduct={setSelectProduct}
+            modalShow={modalShow}
+            setModalShow={setModalShow}
+          />
         </div>
       </div>
       <table
@@ -134,7 +141,9 @@ function ProductsManagement({ selectItem }) {
             <th className="bg-neutral-900 text-white">Name</th>
             <th className="bg-neutral-900 text-white">Price</th>
             <th className="bg-neutral-900 text-white">Quantity</th>
-            <th className="bg-neutral-900 text-white" colSpan={3}>Action</th>
+            <th className="bg-neutral-900 text-white" colSpan={3}>
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -142,16 +151,29 @@ function ProductsManagement({ selectItem }) {
             <tr>
               <td>{element.id}</td>
               <td>
-                <img src={element.image[0]} className="w-5 h-5" alt="" />
+                <img src={element.image} className="w-5 h-5" alt="" />
               </td>
               {/* URL.revokeObjectURL(URL.createObjectURL(element.image[0])) */}
               <td>{element.model}</td>
               <td>{element.price}</td>
-              <td>0</td>
+              <td>{element.quantity}</td>
               <td>
-                <button type="button" className="btn btn-outline-info">
-                  View
-                </button>
+                <ConfigProvider>
+                  <Popover
+                    placement="right"
+                    // title={element.model}
+                    content={<ViewProduct selectProduct={selectProduct} />}
+                    trigger="click"
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-outline-info"
+                      onClick={() => setSelectProduct(element)}
+                    >
+                      View
+                    </button>
+                  </Popover>
+                </ConfigProvider>
               </td>
               <td>
                 <Link>

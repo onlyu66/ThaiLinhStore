@@ -64,16 +64,17 @@ function Login() {
               };
             });
           }
-          console.log(isUser);
+          // console.log(isUser);
         });
         console.log(activeUser);
-        if (isUser && values.userName !== "admin") {
+        if (isUser && values.userName !== "Admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/");
           dispatch(postUserLogged(activeUser));
-        } else if (isUser && values.userName === "admin") {
+        } else if (isUser && values.userName === "Admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/admin");
+          dispatch(postUserLogged(activeUser));
         } else {
           toast.error("Đăng nhập thất bại!");
         }
