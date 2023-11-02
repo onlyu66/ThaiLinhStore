@@ -5,6 +5,21 @@
 }
 .item img{
   margin: 0 auto  ;
+  /* width: 80%; */
+  cursor: pointer;
+}
+.item p:nth-child(2){
+  font-weight: 700;
+  color: rgb(34, 34, 34);
+  cursor: pointer;
+}
+.item p:nth-child(2):hover{
+  color:#146561;
+}
+.item p:nth-child(3){
+  font-weight: 700;
+  color: rgb(254, 27, 27);
+  font-size: 19px;
 }
 .appleReseller div,
 .prominentPhone div div,

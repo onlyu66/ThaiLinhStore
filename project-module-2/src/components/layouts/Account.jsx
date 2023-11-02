@@ -6,11 +6,13 @@ import { deleteUserLogged, fetchUserLogged } from "../../redux/userLoggedSlice";
 
 function Account() {
   const userLogged = useSelector((state) => state.userLogged.userLogged);
-  console.log(userLogged);
+  // console.log(userLogged);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUserLogged());
   }, [dispatch]);
+
+  
 
   return (
     <div>

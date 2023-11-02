@@ -32,11 +32,13 @@ export default function Header() {
 
               {/* Logo */}
               <div className="ml-4 flex lg:ml-0 logos">
-                <Link to="/">
-                  <span className="sr-only">Your Company</span>
-                  <img className="logo" src={logo} alt="" />
+                <Link to="/" className="no-underline">
+                  <div className="flex">
+                    <span className="sr-only">Your Company</span>
+                    <img className="logo flex-none" src={logo} alt="" />
+                    <p className="flex-1"><span style={{color: "#0f6d68"}}>THAILINH</span> STORE</p>
+                  </div>
                 </Link>
-                <p>THAILINH STORE</p>
               </div>
               <div className="ml-auto flex items-center">
                 {/* Search */}

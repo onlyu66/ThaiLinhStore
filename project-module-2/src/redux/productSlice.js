@@ -44,6 +44,7 @@ const productSlice = createSlice({
     error: null,
     productsPerPage: 10,
     currentPage: 1,
+    phonesPerPage: 20,
   },
   reducers: {
     // fetchProducts: (state, action) => {
