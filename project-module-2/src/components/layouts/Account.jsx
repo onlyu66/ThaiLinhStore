@@ -6,6 +6,7 @@ import {
   deleteUserLogged,
   fetchUserLogged,
   postUserLogged,
+  putUserLogged,
 } from "../../redux/userLoggedSlice";
 import { fetchUsers, patchUsers, userAction } from "../../redux/userSlice";
 
@@ -14,7 +15,8 @@ function Account() {
   const userLogged = useSelector((state) => state.users.userLogged);
   // console.log(userLogged);
 
-  // const usersLogged = useSelector((state) => state.userLogged.userLogged);
+  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
+  console.log(usersLogged);
   const [updateUser, setUpdateUser] = useState("");
   console.log(updateUser, "update");
 
@@ -31,13 +33,28 @@ function Account() {
   // console.log(id);
 
   useEffect(() => {
-    users.map((user) => {
-      if (user.userName === userLogged.userName) {
-        dispatch(patchUsers({ userLogged, id: user.id }));
-        setId(user.id);
-        setUpdateUser(user);
-      }
-    });
+    dispatch(fetchUsers());
+
+    // users.map((user) => {
+    //   if (user.userName === userLogged.userName) {
+    //     dispatch(patchUsers({ userLogged, id: user.id }));
+    //     setId(user.id);
+    //     setUpdateUser(user);
+    //     dispatch(postUserLogged(updateUser));
+    //   }
+    //   if (user.userName !== userLogged.userName) {
+    //     dispatch(putUserLogged({ updateUser, id: user.id }));
+    //   }
+    // });
+
+    // const updateUser = users.find(
+    //   (user) => user.userName === userLogged.userName
+    // );
+
+    // if (updateUser) {
+    //   dispatch(patchUsers({ userLogged, id: updateUser.id }));
+    //   dispatch(postUserLogged(updateUser));
+    // }
 
     // const storedLoggedUser = localStorage.getItem("loggedUser");
     // if (storedLoggedUser) {
@@ -49,13 +66,12 @@ function Account() {
     //   const userss = JSON.parse(storedUserLogged);
     //   dispatch(userAction.login(userss)); // Đăng nhập người dùng từ localStorage
     // }
-    dispatch(fetchUsers());
   }, [dispatch]);
 
   return (
     <div>
       {userLogged ? (
-        <div>
+        <div className="lr lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 px-4">
           <div>{userLogged.userName}</div>
           <button
             onClick={() => {

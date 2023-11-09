@@ -17,6 +17,8 @@ function Register() {
       email: "",
       password: "",
       confirmPassword: "",
+      image:
+        "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
     },
     validationSchema: Yup.object({
       userName: Yup.string().required("Tên người dùng không được để trống!"),

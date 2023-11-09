@@ -3,21 +3,78 @@ import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../../redux/userSlice";
+import { fetchUsers, patchUsers, userAction } from "../../../redux/userSlice";
 import { BsJustify } from "react-icons/bs";
+import { postUserLogged, putUserLogged } from "../../../redux/userLoggedSlice";
 
 function AdminHeader({ selectItem, OpenSidebar }) {
   const users = useSelector((state) => state.users.users);
   const dispatch = useDispatch();
   //   const [searchInput, setSearchInput] = useState("");
-  const inputRef = useRef("");
-  const searchProduct = () => {};
+  // const inputRef = useRef("");
+  // const searchProduct = () => {};
+
+  // useEffect(() => {
+  //   dispatch(fetchUsers());
+  // }, [dispatch]);
+  // console.log(isAdmin);const users = useSelector((state) => state.users.users);
+  const userLogged = useSelector((state) => state.users.userLogged);
+  // console.log(userLogged);
+
+  const [updateUser, setUpdateUser] = useState("");
+  console.log(updateUser, "update");
+
+  const [user, setUser] = useState([]);
+
+  // console.log(user);
+
+  // console.log(userLogged);
+
+  // dispatch(postUserLogged(users));
+  const [id, setId] = useState("");
+
+  // console.log(id);
+  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
+  console.log(usersLogged);
 
   useEffect(() => {
     dispatch(fetchUsers());
-  }, [dispatch]);
-  const isAdmin = users.find((user) => user.role === "Admin");
+
+    // users.map((user) => {
+    //   if (user.userName === userLogged.userName) {
+    //     dispatch(patchUsers({ userLogged, id: user.id }));
+    //     setId(user.id);
+    //     setUpdateUser(user);
+    //     dispatch(postUserLogged(updateUser));
+    //   }
+    //   if (user.userName !== userLogged.userName) {
+    //     dispatch(putUserLogged({ updateUser, id: id }));
+    //   }
+    // });
+
+    setUpdateUser(users.find((user) => user.userName === userLogged.userName));
+
+    if (updateUser) {
+      dispatch(patchUsers({ userLogged, id: updateUser.id }));
+      dispatch(postUserLogged(updateUser));
+    }
+    // localStorage.setItem("loggedUser", JSON.stringify(usersLogged));
+
+    // const storedLoggedUser = localStorage.getItem("loggedUser");
+    // if (storedLoggedUser) {
+    //   setUser(JSON.parse(storedLoggedUser));
+    // }
+    // setUser((prevUser) => [...prevUser, updateUser]);
+    // const storedUserLogged = localStorage.getItem("");
+    // if (storedUserLogged) {
+    //   setUser(JSON.parse(storedUserLogged)); // Đăng nhập người dùng từ localStorage
+    // }
+  }, [dispatch, updateUser]);
+
+  const isAdmin = user.find((key) => key.userName === "Admin");
+
   // console.log(isAdmin);
+
   return (
     <div className={clsx(styles.header, "flex justify-between p-3")}>
       <div className={styles.menuIcon}>
@@ -36,8 +93,8 @@ function AdminHeader({ selectItem, OpenSidebar }) {
         placeholder="Search"
         className={clsx(styles.inputSearch, "w-1/5 h-10")}
         type="search"
-        ref={inputRef}
-        onChange={searchProduct}
+        // ref={inputRef}
+        // onChange={searchProduct}
       />
       <i
         className={
@@ -50,7 +107,7 @@ function AdminHeader({ selectItem, OpenSidebar }) {
             : clsx(styles.searchIcon3, "fa-solid fa-magnifying-glass")
         }
       ></i>
-      {isAdmin!== undefined ? (
+      {isAdmin !== undefined ? (
         <div className="flex mr-8">
           <i className="fa-regular fa-bell mr-3 mt-1.5"></i>
           <img

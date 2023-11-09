@@ -1,57 +1,25 @@
 {
   "users": [
     {
-      "userName": "y",
-      "email": "fakeroi66@gmail.com",
-      "password": "linh555555",
-      "confirmPassword": "linh555555",
+      "userName": "Admin",
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "confirmPassword": "admin123",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
       "id": 1,
-      "active": false,
-      "role": "User",
-      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
-    },
-    {
-      "userName": "name",
-      "email": "fakeroi66@gmail.com",
-      "password": "12345678",
-      "confirmPassword": "12345678",
-      "id": 2,
-      "active": false,
-      "role": "User",
-      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
-    },
+      "loggedIn": true
+    }
+  ],
+  "usersLogged": [
     {
       "userName": "Admin",
       "email": "admin@gmail.com",
       "password": "admin123",
       "confirmPassword": "admin123",
-      "id": 3,
-      "active": false,
-      "role": "Admin",
-      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
-    },
-    {
-      "userName": "thailinh66",
-      "email": "ngoclinhthai8@gmail.com",
-      "password": "linh662002",
-      "confirmPassword": "linh662002",
-      "id": 4,
-      "active": false,
-      "role": "User",
-      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg",
-      "loggedIn": true
-    },
-    {
-      "userName": "linh66",
-      "email": "fakeroi66@gmail.com",
-      "password": "linh662002",
-      "confirmPassword": "linh662002",
-      "id": 5,
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 1,
       "loggedIn": true
     }
-  ],
-  "userLogged": [
-    {}
   ],
   "products": [
     {
