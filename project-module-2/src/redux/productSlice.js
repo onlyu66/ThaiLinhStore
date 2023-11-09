@@ -36,6 +36,32 @@ export const putProducts = createAsyncThunk(
     return response.data;
   }
 );
+export const sspProducts = createAsyncThunk(
+  "sspProducts",
+  async (sortTypeName, sortType, curPage, limitPerPage, searchInput) => {
+    let url = `http://localhost:8000/products?_page=${curPage}_limit=${limitPerPage}`;
+    if (searchInput) {
+      url = `http://localhost:8000/products?q=${searchInput}&_sort=${sortTypeName}&_order=${sortType}&_page=${curPage}_limit=${limitPerPage}`;
+    } else if (sortTypeName) {
+      url = `http://localhost:8000/products?_sort=${sortTypeName}&_order=${sortType}&_page=${curPage}_limit=${limitPerPage}`;
+    }
+
+    const reponse = await axios.get(url);
+
+    return reponse.data;
+  }
+);
+export const searchProducts = createAsyncThunk(
+  "searchProducts",
+  async (query) => {
+    const reponse = await axios.get(
+      `http://localhost:8000/products?q=${query}`
+    );
+
+    return reponse.data;
+  }
+);
+
 const productSlice = createSlice({
   name: "products",
   initialState: {
@@ -45,6 +71,7 @@ const productSlice = createSlice({
     productsPerPage: 10,
     currentPage: 1,
     phonesPerPage: 20,
+    // searchInput: "",
   },
   reducers: {
     // fetchProducts: (state, action) => {
@@ -60,9 +87,7 @@ const productSlice = createSlice({
     onClickCurentPage: (state, action) => {
       state.currentPage = action.payload;
     },
-    searchProduct: (state, action) => {
-      
-    }
+    // searchProduct: (state, action) => {},
   },
   extraReducers: (builder) => {
     builder
@@ -76,9 +101,30 @@ const productSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.error = "Error";
       });
-    // builder.addCase(onNavigateNext.fulfilled, (state) => {
-    //   state.currentPage++;
-    // });
+    builder
+      .addCase(sspProducts.pending, (state, action) => {
+        state.status = "Loading";
+      })
+      .addCase(sspProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+        state.status = "Success";
+      })
+      .addCase(sspProducts.rejected, (state, action) => {
+        state.error = "Error";
+      });
+    builder
+      .addCase(searchProducts.pending, (state, action) => {
+        state.status = "Loading";
+      })
+      .addCase(searchProducts.fulfilled, (state, action) => {
+        state.products = action.payload;
+        // state.searchInput = action.payload;
+        state.status = "Success";
+      })
+      .addCase(searchProducts.rejected, (state, action) => {
+        state.error = "Error";
+      });
+
     builder.addCase(postProducts.fulfilled, (state, action) => {
       state.products.push(action.payload);
     });

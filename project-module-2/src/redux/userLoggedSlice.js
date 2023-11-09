@@ -24,15 +24,15 @@ export const putUserLogged = createAsyncThunk(
   async (objUser) => {
     const response = await axios.put(
       `http://localhost:8000/userLogged/${objUser.id}`,
-      objUser.activeUser
+      objUser.usersLogged
     );
     return response.data;
   }
 );
 const userLoggedSlice = createSlice({
-  name: "userLogged",
+  name: "usersLogged",
   initialState: {
-    userLogged: [],
+    usersLogged: [],
     status: "idle",
     error: null,
   },

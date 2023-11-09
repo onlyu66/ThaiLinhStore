@@ -3,20 +3,20 @@
   background-color: white;
   text-align: center;
 }
-.item img{
-  margin: 0 auto  ;
+.item img {
+  margin: 0 auto;
   /* width: 80%; */
   cursor: pointer;
 }
-.item p:nth-child(2){
+.item p:nth-child(2) {
   font-weight: 700;
   color: rgb(34, 34, 34);
   cursor: pointer;
 }
-.item p:nth-child(2):hover{
-  color:#146561;
+.item p:nth-child(2):hover {
+  color: #146561;
 }
-.item p:nth-child(3){
+.item p:nth-child(3) {
   font-weight: 700;
   color: rgb(254, 27, 27);
   font-size: 19px;
@@ -102,17 +102,17 @@
   /* margin-right: 20px !important; */
   border-radius: 10px;
 }
-.itemCustomer >div:nth-child(1) {
+.itemCustomer > div:nth-child(1) {
   flex: 1;
-  margin: 0 0 20px 110px ;
+  margin: 0 0 20px 110px;
 }
-.itemCustomer >div:nth-child(2) {
+.itemCustomer > div:nth-child(2) {
   flex: 1;
-  margin: 0 110px 20px 0 ;
+  margin: 0 110px 20px 0;
 }
-.divCustomer{
-  padding-top: 40px ;
-  padding-bottom: 40px ;
+.divCustomer {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 .divCustomer img {
   flex: 1;
@@ -127,14 +127,32 @@
   padding-left: 20px;
   padding-right: 20px;
 }
-.divCustomer div h5{
+.divCustomer div h5 {
   font-size: 18px;
 }
-.divCustomer div h6{
+.divCustomer div h6 {
   font-size: 13px;
   color: #146561;
 }
-.divCustomer div p{
+.divCustomer div p {
   font-size: 13px;
-  
+}
+.addToCartBtn {
+  background-color: rgb(232, 232, 232);
+  top: 50px;
+  left: 1px;
+  width: 226px;
+  height: 122px;
+}
+.addToCartBtn button{
+  background-color: rgb(253, 251, 251);
+  border: 2px solid #208f89;
+  padding: 8px;
+  margin-top: 40px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.addToCartBtn button:hover{
+  background-color: #208f89;
+  color: #ffffff;
 }

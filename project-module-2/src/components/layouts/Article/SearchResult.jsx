@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import clsx from "clsx";
-import styles from "../../styles/Phones.module.css";
+import styles from "../../styles/SearchResult.module.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, productAction } from "../../../redux/productSlice";
+import {
+  fetchProducts,
+  productAction,
+  searchProducts,
+  sspProducts,
+} from "../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
 
-function Phones() {
+function SearchResult() {
   const imgs = [
     "https://cdn.hoanghamobile.com/i/cat/Uploads/2022/09/07/logoooooooooooooooo.png",
     "https://cdn.hoanghamobile.com/i/cat/Uploads/2020/11/30/samsung-logo-transparent.png",
@@ -28,17 +33,28 @@ function Phones() {
     "https://cdn.hoanghamobile.com/i/cat/Uploads/2023/08/02/logo-moi-ra-2.png",
   ];
   const products = useSelector((state) => state.products.products);
-  const phones = products.filter((phone) => phone.type === "phone");
-  // console.log(phones);
+  //   const products = products.filter((product) => product.type === "product");
+  // console.log(products);
   const [brand, setBrand] = useState("");
   const [rangePrice, setRangePrice] = useState("");
-  const phonesPerPage = useSelector((state) => state.products.phonesPerPage);
+
+  const [sortType, setSortType] = useState("");
+  const [sortTypeName, setSortTypeName] = useState("");
+  console.log(sortType);
+  console.log(sortTypeName);
+
+  const productsPerPage = useSelector(
+    (state) => state.products.productsPerPage
+  );
   const currentPage = useSelector((state) => state.products.currentPage);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(searchProducts());
   }, [dispatch]);
+
+  // console.log(brand);
+  // console.log(temp);
   let countSamsung = 0;
   let countVivo = 0;
   let countItel = 0;
@@ -57,6 +73,8 @@ function Phones() {
   let countTecno = 0;
   let countInfinix = 0;
   let countHtc = 0;
+  let countPk = 0;
+  let countCl = 0;
   let count0_1 = 0;
   let count1_2 = 0;
   let count2_3 = 0;
@@ -70,101 +88,111 @@ function Phones() {
   let count15_20 = 0;
   let count20_100 = 0;
 
-  for (let i = 0; i < phones.length; i++) {
-    if (phones[i].brand === "Samsung") {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].brand === "Samsung") {
       countSamsung++;
     }
-    if (phones[i].brand === "Vivo") {
+    if (products[i].brand === "Vivo") {
       countVivo++;
     }
-    if (phones[i].brand === "Itel") {
+    if (products[i].brand === "Itel") {
       countItel++;
     }
-    if (phones[i].brand === "Philips") {
+    if (products[i].brand === "Philips") {
       countPhilips++;
     }
-    if (phones[i].brand === "Apple") {
+    if (products[i].brand === "Apple") {
       countApple++;
     }
-    if (phones[i].brand === "Nokia") {
+    if (products[i].brand === "Nokia") {
       countNokia++;
     }
-    if (phones[i].brand === "HONOR") {
+    if (products[i].brand === "HONOR") {
       countHonor++;
     }
-    if (phones[i].brand === "Asus") {
+    if (products[i].brand === "Asus") {
       countAsus++;
     }
     if (
-      phones[i].brand === "Xiaomi" ||
-      phones[i].brand === "Redmi" ||
-      phones[i].brand === "POCO"
+      products[i].brand === "Xiaomi" ||
+      products[i].brand === "Redmi" ||
+      products[i].brand === "POCO"
     ) {
       countXiaomi++;
     }
-    if (phones[i].brand === "Realme") {
+    if (products[i].brand === "Realme") {
       countRealme++;
     }
-    if (phones[i].brand === "XOR") {
+    if (products[i].brand === "XOR") {
       countXor++;
     }
-    if (phones[i].brand === "Huawei") {
+    if (products[i].brand === "Huawei") {
       countHuawei++;
     }
-    if (phones[i].brand === "OPPO") {
+    if (products[i].brand === "OPPO") {
       countOppo++;
     }
-    if (phones[i].brand === "TCL") {
+    if (products[i].brand === "TCL") {
       countTcl++;
     }
-    if (phones[i].brand === "Nubia") {
+    if (products[i].brand === "Nubia") {
       countNubia++;
     }
-    if (phones[i].brand === "TECNO") {
+    if (products[i].brand === "TECNO") {
       countTecno++;
     }
-    if (phones[i].brand === "Infinix") {
+    if (products[i].brand === "Infinix") {
       countInfinix++;
     }
-    if (phones[i].brand === "HTC") {
+    if (products[i].brand === "HTC") {
       countHtc++;
     }
-    let price = Math.floor(phones[i].price.split(",").join("")) / 1000000;
-    // console.log(phones[i].price.split(",").join(""));
-    if (phones[i].type === "phone" && price < 1) {
+    if (
+      products[i].type === "Kính cường lực" ||
+      products[i].type === "Ốp lưng" ||
+      products[i].type === "headphone"
+    ) {
+      countPk++;
+    }
+    if (products[i].type === "Kính cường lực") {
+      countCl++;
+    }
+    let price = Math.floor(products[i].price.split(",").join("")) / 1000000;
+    // console.log(products[i].price.split(",").join(""));
+    if (price < 1) {
       count0_1++;
     }
-    if (phones[i].type === "phone" && price >= 1 && price < 2) {
+    if (price >= 1 && price < 2) {
       count1_2++;
     }
-    if (phones[i].type === "phone" && price >= 2 && price < 3) {
+    if (price >= 2 && price < 3) {
       count2_3++;
     }
-    if (phones[i].type === "phone" && price >= 3 && price < 4) {
+    if (price >= 3 && price < 4) {
       count3_4++;
     }
-    if (phones[i].type === "phone" && price >= 4 && price < 5) {
+    if (price >= 4 && price < 5) {
       count4_5++;
     }
-    if (phones[i].type === "phone" && price >= 5 && price < 6) {
+    if (price >= 5 && price < 6) {
       count5_6++;
     }
-    if (phones[i].type === "phone" && price >= 6 && price < 8) {
+    if (price >= 6 && price < 8) {
       count6_8++;
     }
-    if (phones[i].type === "phone" && price >= 8 && price < 10) {
+    if (price >= 8 && price < 10) {
       count8_10++;
     }
-    if (phones[i].type === "phone" && price >= 10 && price < 12) {
+    if (price >= 10 && price < 12) {
       count10_12++;
     }
-    if (phones[i].type === "phone" && price >= 12 && price < 15) {
+    if (price >= 12 && price < 15) {
       count12_15++;
     }
-    if (phones[i].type === "phone" && price >= 15 && price < 20) {
+    if (price >= 15 && price < 20) {
       count15_20++;
     }
-    if (phones[i].type === "phone" && price >= 20 && price < 100) {
+    if (price >= 20 && price < 100) {
       count20_100++;
     }
   }
@@ -172,89 +200,89 @@ function Phones() {
   let temp = [];
   let temp_ = [];
   if (brand === "Apple") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Apple" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Apple" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -263,89 +291,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Nokia") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Nokia" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Nokia" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -354,89 +382,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Infinix") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Infinix" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Infinix" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -445,89 +473,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "TCL") {
-    temp = phones.filter(
-      (phone) => phone.brand === "TCL" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "TCL");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -536,89 +562,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Samsung") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Samsung" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Samsung" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -627,89 +653,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Realme") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Realme" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Realme" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -718,89 +744,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "ROG") {
-    temp = phones.filter(
-      (phone) => phone.brand === "ROG" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "ROG" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -809,89 +835,89 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Itel") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Itel" && phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) => product.brand === "Itel" && product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -900,93 +926,93 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Xiaomi") {
-    temp = phones.filter(
-      (phone) =>
-        (phone.brand === "Xiaomi" ||
-          phone.brand === "Redmi" ||
-          phone.brand === "POCO") &&
-        phone.price !== "Liên hệ"
+    temp = products.filter(
+      (product) =>
+        (product.brand === "Xiaomi" ||
+          product.brand === "Redmi" ||
+          product.brand === "POCO") &&
+        product.price !== "Liên hệ"
     );
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -995,89 +1021,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Asus") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Asus" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "Asus" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1086,89 +1110,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Vivo") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Vivo" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "Vivo" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1177,89 +1199,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Nubia") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Nubia" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "Nubia" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1268,89 +1288,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "OPPO") {
-    temp = phones.filter(
-      (phone) => phone.brand === "OPPO" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "OPPO" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1359,89 +1377,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "HONOR") {
-    temp = phones.filter(
-      (phone) => phone.brand === "HONOR" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "HONOR" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1450,89 +1466,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "XOR") {
-    temp = phones.filter(
-      (phone) => phone.brand === "XOR" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "XOR" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1541,89 +1555,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "TECNO") {
-    temp = phones.filter(
-      (phone) => phone.brand === "TECNO" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "TECNO" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1632,89 +1644,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "HTC") {
-    temp = phones.filter(
-      (phone) => phone.brand === "HTC" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "HTC" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1723,89 +1733,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Masstel") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Masstel" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "Masstel" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1814,89 +1822,87 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Philips") {
-    temp = phones.filter(
-      (phone) => phone.brand === "Philips" && phone.price !== "Liên hệ"
-    );
+    temp = products.filter((product) => product.brand === "Philips" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1905,87 +1911,270 @@ function Phones() {
       temp_ = temp;
     }
   } else if (brand === "Huawei") {
-    temp = phones.filter((phone) => phone.brand === "Huawei");
+    temp = products.filter((product) => product.brand === "Huawei" && product.price !=="Liên hệ");
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 20 && price < 100) {
+          return true;
+        }
+      });
+    } else {
+      temp_ = temp;
+    }
+  } else if (brand === "Phụ kiện") {
+    temp = products.filter(
+      (product) =>
+        product.type === "Kính cường lực" ||
+        product.type === "headphone" ||
+        product.type === "Ốp lưng"
+    );
+    if (rangePrice === "0_1") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price < 1) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "1_2") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 1 && price < 2) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "2_3") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 2 && price < 3) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "3_4") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 3 && price < 4) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "4_5") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 4 && price < 5) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "5_6") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 5 && price < 6) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "6_8") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 6 && price < 8) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "8_10") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 8 && price < 10) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "10_12") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 10 && price < 12) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "12_15") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 12 && price < 15) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "15_20") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 15 && price < 20) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "20_100") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 20 && price < 100) {
+          return true;
+        }
+      });
+    } else {
+      temp_ = temp;
+    }
+  } else if (brand === "Kính cường lực") {
+    temp = products.filter((product) => product.type === "Kính cường lực");
+    if (rangePrice === "0_1") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price < 1) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "1_2") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 1 && price < 2) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "2_3") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 2 && price < 3) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "3_4") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 3 && price < 4) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "4_5") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 4 && price < 5) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "5_6") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 5 && price < 6) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "6_8") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 6 && price < 8) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "8_10") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 8 && price < 10) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "10_12") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 10 && price < 12) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "12_15") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 12 && price < 15) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "15_20") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
+        if (price >= 15 && price < 20) {
+          return true;
+        }
+      });
+    } else if (rangePrice === "20_100") {
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -1994,87 +2183,87 @@ function Phones() {
       temp_ = temp;
     }
   } else {
-    temp = phones;
+    temp = products;
     if (rangePrice === "0_1") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price < 1) {
           return true;
         }
       });
     } else if (rangePrice === "1_2") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 1 && price < 2) {
           return true;
         }
       });
     } else if (rangePrice === "2_3") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 2 && price < 3) {
           return true;
         }
       });
     } else if (rangePrice === "3_4") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 3 && price < 4) {
           return true;
         }
       });
     } else if (rangePrice === "4_5") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 4 && price < 5) {
           return true;
         }
       });
     } else if (rangePrice === "5_6") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 5 && price < 6) {
           return true;
         }
       });
     } else if (rangePrice === "6_8") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 6 && price < 8) {
           return true;
         }
       });
     } else if (rangePrice === "8_10") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 8 && price < 10) {
           return true;
         }
       });
     } else if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 10 && price < 12) {
           return true;
         }
       });
     } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 12 && price < 15) {
           return true;
         }
       });
     } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 15 && price < 20) {
           return true;
         }
       });
     } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      temp_ = temp.filter((product) => {
+        let price = Math.floor(product.price.split(",").join("")) / 1000000;
         if (price >= 20 && price < 100) {
           return true;
         }
@@ -2088,15 +2277,13 @@ function Phones() {
   } else {
     temp = temp;
   }
-  // console.log(brand);
-  // console.log(temp);
 
-  const totalPages = Math.ceil(temp.length / phonesPerPage);
+  const totalPages = Math.ceil(temp.length / productsPerPage);
   const pages = [...Array(totalPages + 1).keys()].slice(1);
-  const indexOfLastPage = currentPage * phonesPerPage;
-  const indexOfFirstPage = indexOfLastPage - phonesPerPage;
+  const indexOfLastPage = currentPage * productsPerPage;
+  const indexOfFirstPage = indexOfLastPage - productsPerPage;
 
-  const visiblePhones = temp.slice(indexOfFirstPage, indexOfLastPage);
+  const visibleProducts = products.slice(indexOfFirstPage, indexOfLastPage);
   const handlePrev = () => {
     if (currentPage !== 1) {
       dispatch(productAction.onNavigatePrev());
@@ -2112,22 +2299,6 @@ function Phones() {
   };
   return (
     <div>
-      <Carousel data-bs-theme="dark" className="carousel">
-        <Carousel.Item>
-          <img
-            className="d-block w-100 rounded"
-            src="https://cdn.hoanghamobile.com/i/home/Uploads/2023/10/24/infinix-note-30-5g-01.jpg"
-            alt="First slide"
-          />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100 rounded"
-            src="https://cdn.hoanghamobile.com/i/home/Uploads/2023/10/25/web-v29e-03.jpg"
-            alt="First slide"
-          />
-        </Carousel.Item>
-      </Carousel>
       <Carousel>
         <Carousel.Item>
           <ul className="p-0 pt-2 m-0 flex  justify-center ">
@@ -2313,60 +2484,12 @@ function Phones() {
             setRangePrice("");
           }}
         >
-          Điện thoại
+          Tìm kiếm
         </Breadcrumb.Item>
       </Breadcrumb>
       <div className={clsx(styles.filter, "flex justify-evenly ")}>
         <p>Lọc danh sách: </p>
         <ul className="flex justify-evenly m-0">
-          <li>
-            <div>
-              <span>Danh mục</span>
-              <i className="fa-solid fa-chevron-down"></i>
-            </div>
-            <ul className={clsx(styles.subCategory, "p-0")}>
-              <li>
-                <ul className="p-0">
-                  <li>
-                    <Link to="/phones/apple">Apple</Link>
-                  </li>
-                  <li>Nokia</li>
-                  <li>Infinix</li>
-                  <li>TCL</li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li>Samsung</li>
-                  <li>Realme</li>
-                  <li>ROG</li>
-                  <li>Itel</li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li>Xiaomi</li>
-                  <li>Vivo</li>
-                  <li>Nubia</li>
-                  <li>Mới - Tin đồn</li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li>OPPO</li>
-                  <li>HONOR</li>
-                  <li>XOR</li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li>TECNO</li>
-                  <li>HTC</li>
-                  <li>Masstel</li>
-                </ul>
-              </li>
-            </ul>
-          </li>
           <li>
             {brand ? (
               <div onClick={() => setBrand("")}>
@@ -2436,6 +2559,9 @@ function Phones() {
                   <li onClick={() => setBrand("Nubia")}>
                     Nubia ({countNubia})
                   </li>
+                  <li onClick={() => setBrand("Phụ kiện")}>
+                    Phụ kiện ({countPk})
+                  </li>
                 </ul>
               </li>
               <li>
@@ -2447,6 +2573,9 @@ function Phones() {
                     Infinix ({countInfinix})
                   </li>
                   <li onClick={() => setBrand("HTC")}>HTC ({countHtc})</li>
+                  <li onClick={() => setBrand("Kính cường lực")}>
+                    Tấm dán cường lực ({countCl})
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -2535,6 +2664,42 @@ function Phones() {
           </li>
           <li>
             <div>
+              <span>Loại sản phẩm</span>
+              <i className="fa-solid fa-chevron-down"></i>
+            </div>
+            <ul className={clsx(styles.subType, "p-0")}>
+              <li>
+                <ul className="p-0">
+                  <li>Dây cáp</li>
+                  <li>Sạc dự phòng</li>
+                </ul>
+              </li>
+              <li>
+                <ul className="p-0">
+                  <li>Phụ kiện</li>
+                  <li>Điện thoại di động</li>
+                </ul>
+              </li>
+              <li>
+                <ul className="p-0">
+                  <li>Tấm dán màn hình</li>
+                  <li>Kính camera</li>
+                </ul>
+              </li>
+              <li>
+                <ul className="p-0">
+                  <li>Củ sạc</li>
+                </ul>
+              </li>
+              <li>
+                <ul className="p-0">
+                  <li>Dây cáp</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <div>
               <span>Bluetooth</span>
               <i className="fa-solid fa-chevron-down"></i>
             </div>
@@ -2562,13 +2727,43 @@ function Phones() {
               <span>Sắp xếp</span>
               <i className="fa-solid fa-chevron-down"></i>
             </div>
+            <ul className={clsx(styles.subSort, "p-0")}>
+              <li>
+                <ul className="p-0">
+                  <li
+                    onClick={() => {
+                      setSortTypeName("price");
+                      setSortType("");
+                    }}
+                  >
+                    Mặc định
+                  </li>
+                  <li
+                    onClick={() => {
+                      setSortTypeName("price");
+                      setSortType("asc");
+                    }}
+                  >
+                    Giá thấp đến cao
+                  </li>
+                  <li
+                    onClick={() => {
+                      setSortTypeName("price");
+                      setSortType("desc");
+                    }}
+                  >
+                    Giá cao đến thấp
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
-      <h4 className="mt-2">Điện thoại</h4>
+      <h4 className="mt-2">Tìm kiếm</h4>
       <ul className="p-0 pt-2 m-0 flex flex-wrap justify-evenly">
-        {visiblePhones.map((element) => {
-          if (element.type === "phone") {
+        {visibleProducts.map((element) => {
+          if (element.type) {
             return (
               <li
                 className={clsx(
@@ -2579,7 +2774,9 @@ function Phones() {
               >
                 <img src={element.image} alt="This is a image" />
                 <p>{element.model}</p>
-                <p>{element.price} ₫</p>
+                <p>
+                  {element.price} {element.price !== "Liên hệ" ? "₫" : ""}
+                </p>
               </li>
             );
           }
@@ -2606,4 +2803,4 @@ function Phones() {
   );
 }
 
-export default Phones;
+export default SearchResult;

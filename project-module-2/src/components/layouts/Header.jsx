@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -7,13 +7,38 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import "../styles/Header.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logos/Store Logo.png";
 import Search from "../others/Search";
+import { useDispatch, useSelector } from "react-redux";
+import { searchProducts } from "../../redux/productSlice";
+import { Drawer } from "antd";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import clsx from "clsx";
 
 export default function Header() {
-  // const [open, setOpen] = useState(false);
+  const products = useSelector((state) => state.products.products);
+  const [searchInput, setSearchInput] = useState("");
+  const [searchedKey, setSearchedKey] = useState([]);
+  const [isDivVisible, setDivVisible] = useState(false);
 
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  // console.log(isDivVisible);
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(searchProducts(searchInput));
+    localStorage.setItem("searchedKey", JSON.stringify(searchedKey));
+  }, [dispatch, searchedKey]);
+  // const [open, setOpen] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSearchedKey((prevSearchedKey) => [...prevSearchedKey, searchInput]);
+    navigate("/searchResult");
+  };
   return (
     <div className="container">
       <header className="relative headers">
@@ -36,22 +61,36 @@ export default function Header() {
                   <div className="flex">
                     <span className="sr-only">Your Company</span>
                     <img className="logo flex-none" src={logo} alt="" />
-                    <p className="flex-1"><span style={{color: "#0f6d68"}}>THAILINH</span> STORE</p>
+                    <p className="flex-1">
+                      <span style={{ color: "#0f6d68" }}>THAILINH</span> STORE
+                    </p>
                   </div>
                 </Link>
               </div>
               <div className="ml-auto flex items-center">
                 {/* Search */}
-                <div className="flex lg:ml-6">
-                  <Search />
-                  <button className="p-2 searchButton">
+                <form className="flex lg:ml-6" onSubmit={handleSubmit}>
+                  <Search
+                    searchInput={searchInput}
+                    setSearchInput={setSearchInput}
+                    searchedKey={searchedKey}
+                    setSearchedKey={setSearchedKey}
+                    products={products}
+                    dispatch={dispatch}
+                    searchProducts={searchProducts}
+                    isDivVisible={isDivVisible}
+                    setDivVisible={setDivVisible}
+                    handleSubmit={handleSubmit}
+                  />
+
+                  <button className="p-2 searchButton" type="submit">
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon
                       className="h-6 w-6 searchIcon"
                       aria-hidden="true"
                     />
                   </button>
-                </div>
+                </form>
 
                 <div className="checkOrder">
                   <i
@@ -63,7 +102,10 @@ export default function Header() {
 
                 {/* Cart */}
                 <div className="ml-1 flow-root lg:ml-6">
-                  <button className="group flex items-center p-2">
+                  <button
+                    className="group flex items-center p-2"
+                    onClick={handleShow}
+                  >
                     <ShoppingBagIcon
                       className="h-8 w-8 flex-shrink-0 cart"
                       aria-hidden="true"
@@ -71,8 +113,24 @@ export default function Header() {
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800 quantity">
                       0
                     </span>
-                    <span className="sr-only">items in cart, view bag</span>
                   </button>
+                  <Offcanvas
+                    show={show}
+                    onHide={handleClose}
+                    placement="end"
+                    className="w-50 rounded-lg"
+                  >
+                    <Offcanvas.Header className="headerCart" closeButton>
+                      <Offcanvas.Title className="title">
+                        Giỏ hàng
+                      </Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body className="bodyCart"></Offcanvas.Body>
+                    <div className="flex footerCart">
+                      <button className="flex-1">Xoá</button>
+                      <button className="flex-1">Thanh toán</button>
+                    </div>
+                  </Offcanvas>
                 </div>
               </div>
             </div>

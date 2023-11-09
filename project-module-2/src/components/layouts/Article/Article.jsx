@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Article.module.css";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +24,7 @@ import apple from "../../../assets/images/icons/apple-logo.png";
 import phoneCase from "../../../assets/images/icons/back-camera.png";
 import phoneScreenProtector from "../../../assets/images/icons/smartphone.png";
 import gimbal from "../../../assets/images/icons/gimbal.png";
+import AddToCartBtn from "../../others/AddToCartBtn";
 // import nhh from "../../assets/images/customer/vdv-nguyen-huy-hoang.jpg";
 
 function Article() {
@@ -32,6 +33,10 @@ function Article() {
   // console.log(products);
 
   const dispatch = useDispatch();
+
+  const [addToCart, setAddoCart] = useState(false);
+
+  const [id, setId] = useState("");
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -92,15 +97,41 @@ function Article() {
                     <li
                       className={clsx(
                         styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
+                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md relative"
                       )}
                       key={element.id}
+                      onMouseEnter={() => {
+                        setAddoCart(true);
+                        setId(element.id);
+                      }}
+                      onMouseLeave={() => {
+                        setAddoCart(false);
+                        setId("");
+                      }}
                     >
                       <div>
                         <img src={element.image} alt="This is a image" />
                         <p>{element.model}</p>
                       </div>
                       <p>{element.price} ₫</p>
+                      {addToCart === true && id === element.id ? (
+                        <div
+                          className={clsx(
+                            styles.addToCartBtn,
+                            "absolute opacity-75"
+                          )}
+                        >
+                          <button
+                            onClick={() => {
+                              setId(element.id);
+                            }}
+                          >
+                            Thêm vào giỏ hàng
+                          </button>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                     </li>
                   );
                 }

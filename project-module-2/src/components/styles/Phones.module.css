@@ -87,6 +87,27 @@
 .subPrice li ul li:hover {
   color: #208f89;
 }
+.filter ul li:hover .subSort {
+  visibility: visible;
+}
+.subSort {
+  /* display: flex; */
+  /* justify-content: space-around; */
+  visibility: hidden;
+  position: absolute;
+  background-color: white;
+  top: 51px;
+  width: 170px;
+  left: 0px;
+  border-radius: 7px;
+}
+.subSort li ul li {
+  font-size: 15.5px;
+  color: #044a47;
+}
+.subSort li ul li:hover {
+  color: #208f89;
+}
 .item {
   width: 19%;
   background-color: white;

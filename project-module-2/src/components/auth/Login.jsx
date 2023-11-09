@@ -9,24 +9,22 @@ import styles from "../styles/Login.module.css";
 import image from "../../assets/images/logos/Logo.png";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers } from "../../redux/userSlice";
-import { postUserLogged } from "../../redux/userLoggedSlice";
+import { fetchUsers, userAction } from "../../redux/userSlice";
+import { fetchUserLogged, postUserLogged } from "../../redux/userLoggedSlice";
 
 function Login() {
   const users = useSelector((state) => state.users.users);
   // console.log(users);
-  // const userLogged = useSelector((state) => state.userLogged.userLogged);
-  const [activeUser, setActiveUser] = useState({
-    id: 0,
-    userName: "",
-    email: "",
-    image: "",
-    password: "",
-    confirmPassword: "",
-  });
+  // const userLogged = useSelector((state) => state.users.userLogged);
+
+  // const activeUser = [userLogged];
+
+  // console.log(activeUser);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
+    // dispatch(fetchUserLogged());
   }, [dispatch]);
 
   const navigate = useNavigate();
@@ -50,31 +48,36 @@ function Login() {
               user.email === values.userName) &&
             user.password === values.password
         );
-        users.map((user) => {
-          if (isUser) {
-            setActiveUser(() => {
-              return {
-                ...activeUser,
-                id: user.id,
-                userName: user.userName,
-                email: user.email,
-                image: user.image,
-                password: user.password,
-                confirmPassword: user.confirmPassword,
-              };
-            });
-          }
-          // console.log(isUser);
-        });
-        // console.log(activeUser);
+        // users.map((user) => {
+        //   if (isUser) {
+        //     setActiveUser({
+        //       id: user.id,
+        //       userName: user.userName,
+        //       email: user.email,
+        //       image: user.image,
+        //       password: user.password,
+        //       confirmPassword: user.confirmPassword,
+        //     });
+        //   }
+        // });
+        // console.log(activeUser.id);
+
+        dispatch(
+          userAction.login({
+            userName: values.userName,
+            password: values.password,
+            loggedIn: true,
+          })
+        );
+
         if (isUser && values.userName !== "Admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/");
-          dispatch(postUserLogged(activeUser));
+          // dispatch(postUserLogged(activeUser));
         } else if (isUser && values.userName === "Admin") {
           toast.success("Đăng nhập thành công!");
           navigate("/admin");
-          dispatch(postUserLogged(activeUser));
+          // dispatch(postUserLogged(activeUser));
         } else {
           toast.error("Đăng nhập thất bại!");
         }

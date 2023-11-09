@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import clsx from "clsx";
-import styles from "../../styles/Apple.module.css";
+import styles from "../../../../../styles/Apple.module.css";
 import { Link } from "react-router-dom";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProducts, productAction } from "../../../redux/productSlice";
+import {
+  fetchProducts,
+  productAction,
+} from "../../../../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
 
-function Apple() {
+function Iphone15Pro() {
   const imgs = [
     "https://cdn.hoanghamobile.com/i/cat/Uploads/2022/09/07/logoooooooooooooooo.png",
     "https://cdn.hoanghamobile.com/i/cat/Uploads/2020/11/30/samsung-logo-transparent.png",
@@ -29,7 +32,10 @@ function Apple() {
   ];
   const products = useSelector((state) => state.products.products);
   const phones = products.filter(
-    (phone) => phone.type === "phone" && phone.brand === "Apple"
+    (phone) =>
+      phone.type === "phone" &&
+      phone.brand === "Apple" &&
+      phone.category === "iPhone 15 Pro"
   );
 
   const [category, setCategory] = useState("");
@@ -65,211 +71,37 @@ function Apple() {
   }
 
   let temp = [];
-  let temp_ = [];
 
-  if (category === "iPhone11Sr") {
-    temp = phones.filter((phone) => phone.category === "iPhone 11 series");
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
-  } else if (category === "iPhone12Sr") {
-    temp = phones.filter((phone) => phone.category === "iPhone 12 series");
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
-  } else if (category === "iPhone13Sr") {
-    temp = phones.filter((phone) => phone.category === "iPhone 13 series");
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
-  } else if (category === "iPhone14Sr") {
-    temp = phones.filter((phone) => phone.category === "iPhone 14 series");
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
-  } else if (category === "iPhone15Sr") {
-    temp = phones.filter((phone) => phone.category === "iPhone 15 series");
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
+  if (rangePrice === "10_12") {
+    temp = phones.filter((phone) => {
+      let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      if (price >= 10 && price < 12) {
+        return true;
+      }
+    });
+  } else if (rangePrice === "12_15") {
+    temp = phones.filter((phone) => {
+      let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      if (price >= 12 && price < 15) {
+        return true;
+      }
+    });
+  } else if (rangePrice === "15_20") {
+    temp = phones.filter((phone) => {
+      let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      if (price >= 15 && price < 20) {
+        return true;
+      }
+    });
+  } else if (rangePrice === "20_100") {
+    temp = phones.filter((phone) => {
+      let price = Math.floor(phone.price.split(",").join("")) / 1000000;
+      if (price >= 20 && price < 100) {
+        return true;
+      }
+    });
   } else {
     temp = phones;
-    if (rangePrice === "10_12") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 10 && price < 12) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "12_15") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 12 && price < 15) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "15_20") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 15 && price < 20) {
-          return true;
-        }
-      });
-    } else if (rangePrice === "20_100") {
-      temp_ = temp.filter((phone) => {
-        let price = Math.floor(phone.price.split(",").join("")) / 1000000;
-        if (price >= 20 && price < 100) {
-          return true;
-        }
-      });
-    } else {
-      temp_ = temp;
-    }
-  }
-  if (rangePrice) {
-    temp = temp_;
-  } else {
-    temp = temp;
   }
 
   const totalPages = Math.ceil(temp.length / phonesPerPage);
@@ -475,127 +307,17 @@ function Apple() {
         <Breadcrumb.Item onClick={() => setRangePrice("")}>
           <Link to="/phones">Điện thoại</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item>Apple</Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/phones/apple">Apple</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/phones/apple/iPhone15Series">iPhone 15 Series</Link>
+        </Breadcrumb.Item>
+        <Breadcrumb.Item>iPhone 15 Pro</Breadcrumb.Item>
       </Breadcrumb>
       <div className={clsx(styles.filter, "flex justify-evenly ")}>
         <p>Lọc danh sách: </p>
         <ul className="flex justify-evenly m-0">
-          <li>
-            {category ? (
-              <div onClick={() => setCategory("")}>
-                <i
-                  class="fa-solid fa-circle-minus"
-                  style={{ color: "#ff3333" }}
-                ></i>
-                <span
-                  style={{ color: "#d10000", fontSize: "15px" }}
-                  className="ml-1"
-                >
-                 Danh mục:
-                </span>
-                <span style={{ fontSize: "16px" }} className="font-bold ml-1">
-                  {category}
-                </span>
-              </div>
-            ) : (
-              <div>
-                <span>Danh mục</span>
-                <i className="fa-solid fa-chevron-down"></i>
-              </div>
-            )}
-            <ul className={clsx(styles.subCategory, "p-0")}>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setCategory("iPhone11Sr")}>
-                    iPhone 11 series
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setCategory("iPhone12Sr")}>
-                    iPhone 12 series
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setCategory("iPhone13Sr")}>
-                    iPhone 13 series
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setCategory("iPhone14Sr")}>
-                    iPhone 14 series
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setCategory("iPhone15Sr")}>
-                    iPhone 15 series
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-
-          <li>
-            {rangePrice ? (
-              <div onClick={() => setRangePrice("")}>
-                <i
-                  class="fa-solid fa-circle-minus"
-                  style={{ color: "#ff3333" }}
-                ></i>
-                <span
-                  style={{ color: "#d10000", fontSize: "15px" }}
-                  className="ml-1"
-                >
-                  Giá:
-                </span>
-                <span style={{ fontSize: "16px" }} className="font-bold ml-1">
-                  {rangePrice}
-                </span>
-              </div>
-            ) : (
-              <div>
-                <span>Giá</span>
-                <i className="fa-solid fa-chevron-down"></i>
-              </div>
-            )}
-            <ul className={clsx(styles.subPrice, "p-0")}>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setRangePrice("10_12")}>
-                    10 đến 12 triệu ({count10_12})
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setRangePrice("12_15")}>
-                    12 đến 15 triệu ({count12_15})
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setRangePrice("15_20")}>
-                    15 đến 20 triệu ({count15_20})
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <ul className="p-0">
-                  <li onClick={() => setRangePrice("20_100")}>
-                    20 đến 100 triệu ({count20_100})
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
           <li>
             <div>
               <span>Bluetooth</span>
@@ -628,7 +350,7 @@ function Apple() {
           </li>
         </ul>
       </div>
-      <h4 className="mt-2">iPhone</h4>
+      <h4 className="mt-2">iPhone 15 Pro</h4>
       <ul className="p-0 pt-2 m-0 flex flex-wrap justify-evenly">
         {visiblePhones.map((element) => {
           if (element.type === "phone") {
@@ -669,4 +391,4 @@ function Apple() {
   );
 }
 
-export default Apple;
+export default Iphone15Pro;

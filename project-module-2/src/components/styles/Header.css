@@ -45,7 +45,7 @@
   text-decoration: none;
   color: #208f89;
 }
-.logos p:hover{
+.logos p:hover {
   color: #0f6d68;
 }
 
@@ -85,6 +85,30 @@
 }
 .headers {
   background-color: #fafafa;
-  
+}
+.headerCart {
+  background-color: #208f89;
+  color: #fdfdfd;
+}
+.bodyCart {
+  background-color: #fdfdfd;
 }
 
+.footerCart button:first-child {
+  border-top: 2px solid rgb(246, 37, 37);
+  padding: 10px;
+}
+.footerCart button:first-child:hover{
+  background-color: rgb(246, 37, 37);
+  color: white;
+  font-weight: 600;
+}
+.footerCart button:last-child {
+  padding: 10px;
+  border-top: 2px solid #208f89;
+}
+.footerCart button:last-child:hover{
+  background-color: #208f89;
+  color: white;
+  font-weight: 600;
+}

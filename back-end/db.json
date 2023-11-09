@@ -38,18 +38,20 @@
       "id": 4,
       "active": false,
       "role": "User",
-      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg"
+      "image": "https://anhdephd.vn/wp-content/uploads/2022/02/tai-anh-avatar-dep-hinh-dai-dien-facebook.jpg",
+      "loggedIn": true
+    },
+    {
+      "userName": "linh66",
+      "email": "fakeroi66@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "id": 5,
+      "loggedIn": true
     }
   ],
   "userLogged": [
-    {
-      "id": 1,
-      "userName": "",
-      "email": "",
-      "image": "",
-      "password": "",
-      "confirmPassword": ""
-    }
+    {}
   ],
   "products": [
     {
@@ -61,7 +63,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 1,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Pro Max"
     },
     {
       "brand": "Apple",
@@ -72,7 +74,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 2,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Pro Max"
     },
     {
       "brand": "Apple",
@@ -83,7 +85,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 3,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Pro"
     },
     {
       "brand": "Apple",
@@ -94,7 +96,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 4,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Pro"
     },
     {
       "brand": "Apple",
@@ -105,7 +107,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 5,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15"
     },
     {
       "brand": "Apple",
@@ -116,7 +118,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 6,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Plus"
     },
     {
       "brand": "Apple",
@@ -127,7 +129,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 7,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15"
     },
     {
       "brand": "Apple",
@@ -138,7 +140,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 8,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15 Plus"
     },
     {
       "brand": "Apple",
@@ -149,7 +151,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 9,
-      "category": "iPhone 11 series"
+      "category": "iPhone 11"
     },
     {
       "brand": "Apple",
@@ -170,7 +172,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 11,
-      "category": "iPhone 11 series"
+      "category": "iPhone 11"
     },
     {
       "brand": "Apple",
@@ -181,7 +183,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 12,
-      "category": "iPhone 14 series"
+      "category": "iPhone 14 Pro Max"
     },
     {
       "brand": "Apple",
@@ -193,7 +195,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 13,
-      "category": "iPhone 13 series"
+      "category": "iPhone 13"
     },
     {
       "brand": "Apple",
@@ -204,7 +206,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 14,
-      "category": "iPhone 14 series"
+      "category": "iPhone 14 Pro Max"
     },
     {
       "brand": "Apple",
@@ -215,7 +217,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 15,
-      "category": "iPhone 14 series"
+      "category": "iPhone 14 Pro"
     },
     {
       "brand": "OPPO",
@@ -710,8 +712,7 @@
       "image": "https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2022/05/07/i11pro-5960.jpg",
       "type": "pin",
       "quantity": "2",
-      "id": 60,
-      "category": "iPhone 11 series"
+      "id": 60
     },
     {
       "brand": "Apple",
@@ -720,8 +721,7 @@
       "image": "https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2022/08/03/image.png",
       "type": "screen",
       "quantity": "2",
-      "id": 61,
-      "category": "iPhone 11 series"
+      "id": 61
     },
     {
       "brand": "Apple",
@@ -739,8 +739,7 @@
       "image": "https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2022/10/06/image-removebg-preview-29.png",
       "type": "pin",
       "quantity": "2",
-      "id": 63,
-      "category": "iPhone 11 series"
+      "id": 63
     },
     {
       "brand": "Apple",
@@ -831,7 +830,7 @@
       "type": "phone",
       "quantity": "2",
       "id": 73,
-      "category": "iPhone 15 series"
+      "category": "iPhone 15"
     },
     {
       "brand": "Nokia",

@@ -19,27 +19,22 @@ export const fetchUsers = createAsyncThunk("fetchUsers", async () => {
 //     return response.data;
 //   }
 // );
-export const deleteUsers = createAsyncThunk(
-  "deleteUsers",
-  async (idUser) => {
-    await axios.delete(`http://localhost:8000/users/${idUser}`);
-    return idUser;
-  }
-);
-export const patchUsers = createAsyncThunk(
-  "patchUsers",
-  async (objUser) => {
-    const response = await axios.patch(
-      `http://localhost:8000/users/${objUser.id}`,
-      objUser.activeUser
-    );
-    return response.data;
-  }
-);
+export const deleteUsers = createAsyncThunk("deleteUsers", async (idUser) => {
+  await axios.delete(`http://localhost:8000/users/${idUser}`);
+  return idUser;
+});
+export const patchUsers = createAsyncThunk("patchUsers", async (objUser) => {
+  const response = await axios.patch(
+    `http://localhost:8000/users/${objUser.id}`,
+    objUser.userLogged
+  );
+  return response.data;
+});
 const userSlice = createSlice({
   name: "users",
   initialState: {
     users: [],
+    userLogged: null,
     status: "idle",
     error: null,
     usersPerPage: 10,
@@ -58,6 +53,12 @@ const userSlice = createSlice({
     // onNavigateNext:()=>{},
     onClickCurentPage: (state, action) => {
       state.currentPage = action.payload;
+    },
+    login: (state, action) => {
+      state.userLogged = action.payload;
+    },
+    logout: (state) => {
+      state.userLogged = null;
     },
   },
   extraReducers: (builder) => {
@@ -79,9 +80,7 @@ const userSlice = createSlice({
     //   state.users.push(action.payload);
     // });
     builder.addCase(deleteUsers.fulfilled, (state, action) => {
-      state.users = state.users.filter(
-        (user) => user.id !== action.payload
-      );
+      state.users = state.users.filter((user) => user.id !== action.payload);
     });
     builder.addCase(patchUsers.fulfilled, (state, action) => {
       state.users = state.users.map((user) =>
