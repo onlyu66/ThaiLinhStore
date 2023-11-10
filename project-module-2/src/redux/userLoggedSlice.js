@@ -17,17 +17,17 @@ export const postUserLogged = createAsyncThunk(
 );
 export const deleteUserLogged = createAsyncThunk(
   "deleteUserLogged",
-  async (idUser) => {
-    await axios.delete(`http://localhost:8000/usersLogged/${idUser}`);
-    return idUser;
+  async () => {
+    const response = await axios.delete(`http://localhost:8000/usersLogged`);
+    return response.data;
   }
 );
-export const putUserLogged = createAsyncThunk(
-  "putUserLogged",
-  async (objUser) => {
-    const response = await axios.put(
-      `http://localhost:8000/usersLogged/${objUser.id}`,
-      objUser.updateUser
+export const patchUserLogged = createAsyncThunk(
+  "patchUserLogged",
+  async (updateUser) => {
+    const response = await axios.patch(
+      `http://localhost:8000/usersLogged`,
+      updateUser
     );
     return response.data;
   }
@@ -60,7 +60,7 @@ const userLoggedSlice = createSlice({
         (user) => user.id !== action.payload
       );
     });
-    builder.addCase(putUserLogged.fulfilled, (state, action) => {
+    builder.addCase(patchUserLogged.fulfilled, (state, action) => {
       state.usersLogged = state.usersLogged.map((user) =>
         user.id === action.payload.id ? action.payload : user
       );

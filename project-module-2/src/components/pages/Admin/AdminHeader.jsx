@@ -3,9 +3,12 @@ import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers, patchUsers, userAction } from "../../../redux/userSlice";
+import { fetchUsers, patchUsers } from "../../../redux/userSlice";
 import { BsJustify } from "react-icons/bs";
-import { postUserLogged, putUserLogged } from "../../../redux/userLoggedSlice";
+import {
+  fetchUserLogged,
+  postUserLogged,
+} from "../../../redux/userLoggedSlice";
 
 function AdminHeader({ selectItem, OpenSidebar }) {
   const users = useSelector((state) => state.users.users);
@@ -24,18 +27,18 @@ function AdminHeader({ selectItem, OpenSidebar }) {
   const [updateUser, setUpdateUser] = useState("");
   console.log(updateUser, "update");
 
-  const [user, setUser] = useState([]);
+  // const [user, setUser] = useState([]);
 
   // console.log(user);
 
   // console.log(userLogged);
 
   // dispatch(postUserLogged(users));
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
 
   // console.log(id);
   const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
-  console.log(usersLogged);
+  // console.log(usersLogged);
 
   useEffect(() => {
     dispatch(fetchUsers());
@@ -51,13 +54,16 @@ function AdminHeader({ selectItem, OpenSidebar }) {
     //     dispatch(putUserLogged({ updateUser, id: id }));
     //   }
     // });
-
+    // const updateUser = users.find(
+    //   (user) => user.userName === userLogged.userName
+    // );
     setUpdateUser(users.find((user) => user.userName === userLogged.userName));
 
     if (updateUser) {
       dispatch(patchUsers({ userLogged, id: updateUser.id }));
       dispatch(postUserLogged(updateUser));
     }
+    dispatch(fetchUserLogged());
     // localStorage.setItem("loggedUser", JSON.stringify(usersLogged));
 
     // const storedLoggedUser = localStorage.getItem("loggedUser");
@@ -69,9 +75,9 @@ function AdminHeader({ selectItem, OpenSidebar }) {
     // if (storedUserLogged) {
     //   setUser(JSON.parse(storedUserLogged)); // Đăng nhập người dùng từ localStorage
     // }
-  }, [dispatch, updateUser]);
+  }, [dispatch]);
 
-  const isAdmin = user.find((key) => key.userName === "Admin");
+  const isAdmin = usersLogged.find((key) => key.userName === "Admin");
 
   // console.log(isAdmin);
 
@@ -107,7 +113,7 @@ function AdminHeader({ selectItem, OpenSidebar }) {
             : clsx(styles.searchIcon3, "fa-solid fa-magnifying-glass")
         }
       ></i>
-      {isAdmin !== undefined ? (
+      {isAdmin ? (
         <div className="flex mr-8">
           <i className="fa-regular fa-bell mr-3 mt-1.5"></i>
           <img

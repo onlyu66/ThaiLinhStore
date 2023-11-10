@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, parsePath } from "react-router-dom";
+import { patchUsers, userAction } from "../../../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteUserLogged,
+  fetchUserLogged,
+  patchUserLogged,
+} from "../../../redux/userLoggedSlice";
 
 function AdminSidebar({ setSelectItem, openSidebarToggle, OpenSidebar }) {
+  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUserLogged());
+  }, [dispatch]);
   return (
     <div
       className={clsx(
@@ -65,13 +77,27 @@ function AdminSidebar({ setSelectItem, openSidebarToggle, OpenSidebar }) {
           <li>Help</li>
           <li>Contact us</li>
         </ul>
-        <Link
+        {/* <Link
           to="/login"
+          
+        > */}
+        <div
           className="flex no-underline text-white hover:font-semibold mt-4"
+          onClick={() => {
+            const user = {
+              loggedIn: false,
+            };
+            dispatch(patchUserLogged(user));
+            dispatch(patchUsers(usersLogged));
+            dispatch(deleteUserLogged());
+            userAction.logout();
+          }}
         >
           <i class="fa-solid fa-right-to-bracket mr-1 mt-1.5"></i>
           <div>Log out</div>
-        </Link>
+        </div>
+
+        {/* </Link> */}
       </div>
     </div>
   );
