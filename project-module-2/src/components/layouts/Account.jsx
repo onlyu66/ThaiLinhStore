@@ -34,10 +34,18 @@ function Account() {
   const isUser = usersLogged.find((key) => key.userName !== "Admin");
 
   return (
-    <div>
+    <div className="lr lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 px-4">
       {isUser ? (
-        <div className="lr lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 px-4">
-          <div>{isUser.userName}</div>
+        <div className="flex mr-8">
+          <i className="fa-regular fa-bell mr-3 mt-1.5"></i>
+          <img
+            src={isUser.image}
+            alt=""
+            className="w-8 h-8 rounded-full mr-2"
+          />
+          {/* {console.log(isUser)} */}
+          <p>{isUser.userName}</p>
+          <i class="fa-solid fa-caret-down mt-1 ml-1"></i>
           <button
             onClick={() => {
               // setUpdateUser(user);
