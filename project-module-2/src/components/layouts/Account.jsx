@@ -3,76 +3,41 @@ import "../styles/Account.css";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  deleteUserLogged,
-  fetchUserLogged,
-  postUserLogged,
-  putUserLogged,
-} from "../../redux/userLoggedSlice";
+  fetchUsersLogged,
+  postUsersLogged,
+} from "../../redux/usersLoggedSlice";
 import { fetchUsers, patchUsers, userAction } from "../../redux/userSlice";
 
 function Account() {
   const users = useSelector((state) => state.users.users);
-  const userLogged = useSelector((state) => state.users.userLogged);
-  // console.log(userLogged);
+  const dispatch = useDispatch();
 
-  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
-  console.log(usersLogged);
+  const userLogged = useSelector((state) => state.users.userLogged);
+
   const [updateUser, setUpdateUser] = useState("");
   console.log(updateUser, "update");
 
-  const [user, setUser] = useState([]);
-  // localStorage.setItem("loggedUser", JSON.stringify(user));
-
-  // console.log(user);
-
-  // console.log(userLogged);
-
-  const dispatch = useDispatch();
-  // dispatch(postUserLogged(users));
-  const [id, setId] = useState("");
-  // console.log(id);
+  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
 
   useEffect(() => {
     dispatch(fetchUsers());
 
-    // users.map((user) => {
-    //   if (user.userName === userLogged.userName) {
-    //     dispatch(patchUsers({ userLogged, id: user.id }));
-    //     setId(user.id);
-    //     setUpdateUser(user);
-    //     dispatch(postUserLogged(updateUser));
-    //   }
-    //   if (user.userName !== userLogged.userName) {
-    //     dispatch(putUserLogged({ updateUser, id: user.id }));
-    //   }
-    // });
+    setUpdateUser(users.find((user) => user.userName === userLogged.userName));
 
-    // const updateUser = users.find(
-    //   (user) => user.userName === userLogged.userName
-    // );
+    if (updateUser) {
+      dispatch(patchUsers({ userLogged, id: updateUser.id }));
+      dispatch(postUsersLogged(updateUser));
+    }
+    dispatch(fetchUsersLogged());
+  }, [updateUser]);
 
-    // if (updateUser) {
-    //   dispatch(patchUsers({ userLogged, id: updateUser.id }));
-    //   dispatch(postUserLogged(updateUser));
-    // }
-
-    // const storedLoggedUser = localStorage.getItem("loggedUser");
-    // if (storedLoggedUser) {
-    //   setUpdateUser(JSON.parse(storedLoggedUser));
-    // }
-    // setUser((prevUser) => [...prevUser, updateUser]);
-    // const storedUserLogged = localStorage.getItem("");
-    // if (storedUserLogged) {
-    //   const userss = JSON.parse(storedUserLogged);
-    //   dispatch(userAction.login(userss)); // Đăng nhập người dùng từ localStorage
-    // }
-  }, [dispatch]);
+  const isUser = usersLogged.find((key) => key.userName !== "Admin");
 
   return (
     <div>
-      {userLogged ? (
+      {isUser ? (
         <div className="lr lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 px-4">
-          <div>{userLogged.userName}</div>
+          <div>{isUser.userName}</div>
           <button
             onClick={() => {
               // setUpdateUser(user);

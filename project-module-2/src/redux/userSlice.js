@@ -73,9 +73,7 @@ const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.error = "Error";
       });
-    // builder.addCase(onNavigateNext.fulfilled, (state) => {
-    //   state.currentPage++;
-    // });
+
     // builder.addCase(postUsers.fulfilled, (state, action) => {
     //   state.users.push(action.payload);
     // });

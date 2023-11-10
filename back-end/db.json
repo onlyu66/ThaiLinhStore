@@ -8,8 +8,18 @@
       "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
       "id": 1,
       "loggedIn": true
+    },
+    {
+      "userName": "thailinh66",
+      "email": "ngoclinhthai8@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 2,
+      "loggedIn": true
     }
   ],
+  "userLogged": [],
   "usersLogged": [
     {
       "userName": "Admin",
@@ -17,8 +27,15 @@
       "password": "admin123",
       "confirmPassword": "admin123",
       "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
-      "id": 1,
-      "loggedIn": true
+      "id": 1
+    },
+    {
+      "userName": "thailinh66",
+      "email": "ngoclinhthai8@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 2
     }
   ],
   "products": [

@@ -2,14 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchUserLogged = createAsyncThunk("fetchUserLogged", async () => {
-  const reponse = await axios.get("http://localhost:8000/usersLogged");
+  const reponse = await axios.get("http://localhost:8000/userLogged");
   return reponse.data;
 });
 export const postUserLogged = createAsyncThunk(
   "postUserLogged",
   async (user) => {
     const response = await axios.post(
-      "http://localhost:8000/usersLogged",
+      "http://localhost:8000/userLogged",
       user
     );
     return response.data;
@@ -17,25 +17,25 @@ export const postUserLogged = createAsyncThunk(
 );
 export const deleteUserLogged = createAsyncThunk(
   "deleteUserLogged",
-  async () => {
-    const response = await axios.delete(`http://localhost:8000/usersLogged`);
-    return response.data;
+  async (idUser) => {
+    await axios.delete(`http://localhost:8000/userLogged/${idUser}`);
+    return idUser;
   }
 );
 export const patchUserLogged = createAsyncThunk(
   "patchUserLogged",
-  async (updateUser) => {
+  async (objUser) => {
     const response = await axios.patch(
-      `http://localhost:8000/usersLogged`,
-      updateUser
+      `http://localhost:8000/userLogged/${objUser.id}`,
+      objUser.updateUser
     );
     return response.data;
   }
 );
 const userLoggedSlice = createSlice({
-  name: "usersLogged",
+  name: "userLogged",
   initialState: {
-    usersLogged: [],
+    userLogged: [],
     status: "idle",
     error: null,
   },
@@ -46,22 +46,22 @@ const userLoggedSlice = createSlice({
         state.status = "Loading";
       })
       .addCase(fetchUserLogged.fulfilled, (state, action) => {
-        state.usersLogged = action.payload;
+        state.userLogged = action.payload;
         state.status = "Success";
       })
       .addCase(fetchUserLogged.rejected, (state, action) => {
         state.error = "Error";
       });
     builder.addCase(postUserLogged.fulfilled, (state, action) => {
-      state.usersLogged.push(action.payload);
+      state.userLogged.push(action.payload);
     });
     builder.addCase(deleteUserLogged.fulfilled, (state, action) => {
-      state.usersLogged = state.usersLogged.filter(
+      state.userLogged = state.userLogged.filter(
         (user) => user.id !== action.payload
       );
     });
     builder.addCase(patchUserLogged.fulfilled, (state, action) => {
-      state.usersLogged = state.usersLogged.map((user) =>
+      state.userLogged = state.userLogged.map((user) =>
         user.id === action.payload.id ? action.payload : user
       );
     });

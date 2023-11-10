@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
-import { Link, parsePath } from "react-router-dom";
-import { patchUsers, userAction } from "../../../redux/userSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { fetchUsers, patchUsers, userAction } from "../../../redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteUserLogged,
@@ -11,11 +11,30 @@ import {
 } from "../../../redux/userLoggedSlice";
 
 function AdminSidebar({ setSelectItem, openSidebarToggle, OpenSidebar }) {
+  const users = useSelector((state) => state.users.users);
   const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
+  const userLogged = useSelector((state) => state.users.userLogged);
   const dispatch = useDispatch();
+  const logout = {
+    loggedIn: false,
+  };
+  const [temp, setTemp] = useState("");
   useEffect(() => {
     dispatch(fetchUserLogged());
+    dispatch(fetchUsers());
+    setTemp(users.find((user) => user.userName === userLogged.userName));
   }, [dispatch]);
+
+  console.log(temp);
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch(patchUserLogged({ ...temp, ...logout }));
+    dispatch(patchUsers({ ...temp, ...logout }));
+    dispatch(deleteUserLogged(temp.id));
+    dispatch(userAction.logout());
+    navigate("/login");
+  };
   return (
     <div
       className={clsx(
@@ -81,21 +100,13 @@ function AdminSidebar({ setSelectItem, openSidebarToggle, OpenSidebar }) {
           to="/login"
           
         > */}
-        <div
+        <button
           className="flex no-underline text-white hover:font-semibold mt-4"
-          onClick={() => {
-            const user = {
-              loggedIn: false,
-            };
-            dispatch(patchUserLogged(user));
-            dispatch(patchUsers(usersLogged));
-            dispatch(deleteUserLogged());
-            userAction.logout();
-          }}
+          onClick={handleLogout}
         >
           <i class="fa-solid fa-right-to-bracket mr-1 mt-1.5"></i>
           <div>Log out</div>
-        </div>
+        </button>
 
         {/* </Link> */}
       </div>
