@@ -1,38 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchUsers, patchUsers, userAction } from "../../../redux/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteUserLogged,
-  fetchUserLogged,
-  patchUserLogged,
-} from "../../../redux/userLoggedSlice";
+import { useDispatch } from "react-redux";
+import { authAction } from "../../../redux/authSlice";
 
 function AdminSidebar({ setSelectItem, openSidebarToggle, OpenSidebar }) {
-  const users = useSelector((state) => state.users.users);
-  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
-  const userLogged = useSelector((state) => state.users.userLogged);
   const dispatch = useDispatch();
-  const logout = {
-    loggedIn: false,
-  };
-  const [temp, setTemp] = useState("");
-  useEffect(() => {
-    dispatch(fetchUserLogged());
-    dispatch(fetchUsers());
-    setTemp(users.find((user) => user.userName === userLogged.userName));
-  }, [dispatch]);
 
-  console.log(temp);
+  useEffect(() => {}, [dispatch]);
 
   const navigate = useNavigate();
+
   const handleLogout = () => {
-    dispatch(patchUserLogged({ ...temp, ...logout }));
-    dispatch(patchUsers({ ...temp, ...logout }));
-    dispatch(deleteUserLogged(temp.id));
-    dispatch(userAction.logout());
+    dispatch(authAction.logout());
     navigate("/login");
   };
   return (

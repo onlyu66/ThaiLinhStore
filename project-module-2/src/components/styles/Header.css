@@ -2,8 +2,8 @@
   box-shadow: 1px 2px 7px rgb(52, 52, 52);
   border-radius: 18px !important;
   position: relative;
-  margin-right: 50px;
-  width: 580px !important;
+  margin-right: 60px;
+  width: 540px !important;
 }
 .searchInput::placeholder {
   font-size: 16px;
@@ -57,6 +57,7 @@
   border-radius: 10px;
   padding: 10px;
   cursor: pointer;
+  margin-left: -20px;
 }
 .checkOrder:hover {
   background-color: rgb(0, 132, 132);
@@ -73,6 +74,9 @@
   flex: 1;
   /* margin-top: 10px; */
   color: #ffff;
+}
+.group{
+  margin-left: 10px;
 }
 .cart {
   color: #208f89;

@@ -54,7 +54,7 @@ function OnFocus({
   return (
     <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {searchInput ? (
-        <div style={{ overflow: "auto", maxHeight: "530px" }} className={clsx(styles.suggestedProducts)}>
+        <div style={{ overflow: "auto", maxHeight: "540px" }} className={clsx(styles.suggestedProducts)}>
           <h6>Sản phẩm gợi ý</h6>
           {products.map((product, index) =>
             index < 10 ? (
@@ -81,7 +81,7 @@ function OnFocus({
           )}
         </div>
       ) : (
-        <div style={{ overflow: "auto", maxHeight: "530px" }} >
+        <div style={{ overflow: "auto", maxHeight: "540px" }} >
           <img
             src="https://hoanghamobile.com/Uploads/2023/10/31/web-htc-wildfire-e3-lite-03.jpg"
             style={{ width: "98%", margin: "10px auto" }}
@@ -92,7 +92,7 @@ function OnFocus({
                 style={{
                   fontSize: "15px",
                   color: "red",
-                  marginLeft: "425px",
+                  marginLeft: "360px",
                   cursor: "pointer",
                 }}
                 onClick={() => setSearchedKey([])}

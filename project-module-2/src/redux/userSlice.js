@@ -5,10 +5,7 @@ export const fetchUsers = createAsyncThunk("fetchUsers", async () => {
   const reponse = await axios.get("http://localhost:8000/users");
   return reponse.data;
 });
-// export const onNavigateNext = createAsyncThunk("onNavigateNext", async () => {
-//   const reponse = await axios.get("http://localhost:8000/users");
-//   return reponse.data;
-// });
+
 // export const postUsers = createAsyncThunk(
 //   "postUsers",
 //   async (user) => {
@@ -35,6 +32,7 @@ const userSlice = createSlice({
   initialState: {
     users: [],
     userLogged: null,
+    // token: [],
     status: "idle",
     error: null,
     usersPerPage: 10,
@@ -53,13 +51,8 @@ const userSlice = createSlice({
     // onNavigateNext:()=>{},
     onClickCurentPage: (state, action) => {
       state.currentPage = action.payload;
-    },
-    login: (state, action) => {
-      state.userLogged = action.payload;
-    },
-    logout: (state) => {
-      state.userLogged = null;
-    },
+    }
+    
   },
   extraReducers: (builder) => {
     builder

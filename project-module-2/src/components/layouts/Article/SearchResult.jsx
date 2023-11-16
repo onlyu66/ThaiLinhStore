@@ -12,6 +12,7 @@ import {
   sspProducts,
 } from "../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
+import Article from "./Article";
 
 function SearchResult() {
   const imgs = [
@@ -1021,7 +1022,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Asus") {
-    temp = products.filter((product) => product.brand === "Asus" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Asus" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1110,7 +1113,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Vivo") {
-    temp = products.filter((product) => product.brand === "Vivo" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Vivo" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1199,7 +1204,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Nubia") {
-    temp = products.filter((product) => product.brand === "Nubia" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Nubia" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1288,7 +1295,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "OPPO") {
-    temp = products.filter((product) => product.brand === "OPPO" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "OPPO" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1377,7 +1386,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "HONOR") {
-    temp = products.filter((product) => product.brand === "HONOR" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "HONOR" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1466,7 +1477,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "XOR") {
-    temp = products.filter((product) => product.brand === "XOR" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "XOR" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1555,7 +1568,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "TECNO") {
-    temp = products.filter((product) => product.brand === "TECNO" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "TECNO" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1644,7 +1659,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "HTC") {
-    temp = products.filter((product) => product.brand === "HTC" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "HTC" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1733,7 +1750,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Masstel") {
-    temp = products.filter((product) => product.brand === "Masstel" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Masstel" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1822,7 +1841,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Philips") {
-    temp = products.filter((product) => product.brand === "Philips" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Philips" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -1911,7 +1932,9 @@ function SearchResult() {
       temp_ = temp;
     }
   } else if (brand === "Huawei") {
-    temp = products.filter((product) => product.brand === "Huawei" && product.price !=="Liên hệ");
+    temp = products.filter(
+      (product) => product.brand === "Huawei" && product.price !== "Liên hệ"
+    );
     if (rangePrice === "0_1") {
       temp_ = temp.filter((product) => {
         let price = Math.floor(product.price.split(",").join("")) / 1000000;
@@ -2297,6 +2320,10 @@ function SearchResult() {
   const handleCurrentPage = (_p) => {
     dispatch(productAction.onClickCurentPage(_p));
   };
+  // const searchInput = JSON.parse(localStorage.getItem("searchInput"));
+  // const searchedKey = JSON.parse(localStorage.getItem("searchedKey"));
+  // const isSearch = searchedKey.find((key) => key === searchInput);
+  // console.log(isSearch);
   return (
     <div>
       <Carousel>

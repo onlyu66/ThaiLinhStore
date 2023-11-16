@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import clsx from "clsx";
-import styles from "../../../styles/Apple.module.css";
+import styles from "../../../styles/Samsung.module.css";
 import { Link } from "react-router-dom";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, productAction } from "../../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
+import { cartAction } from "../../../../redux/cartSlice";
 
 function Samsung() {
   const imgs = [
@@ -35,7 +36,13 @@ function Samsung() {
       phone.price !== "Liên hệ"
   );
 
-  const [category, setCategory] = useState("");
+  const [addToCart, setAddoCart] = useState(false);
+
+  const [id, setId] = useState("");
+
+  console.log(id);
+
+  // const [category, setCategory] = useState("");
   const [rangePrice, setRangePrice] = useState("");
 
   const phonesPerPage = useSelector((state) => state.products.phonesPerPage);
@@ -539,13 +546,38 @@ function Samsung() {
               <li
                 className={clsx(
                   styles.item,
-                  "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                  "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                 )}
                 key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
               >
-                <img src={element.image} alt="This is a image" />
-                <p>{element.model}</p>
+                <div>
+                  <img src={element.image} alt="This is a image" />
+                  <p>{element.model}</p>
+                </div>
                 <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
+                  >
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
+                    >
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </li>
             );
           }

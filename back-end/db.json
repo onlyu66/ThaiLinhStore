@@ -6,8 +6,7 @@
       "password": "admin123",
       "confirmPassword": "admin123",
       "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
-      "id": 1,
-      "loggedIn": true
+      "id": 1
     },
     {
       "userName": "thailinh66",
@@ -15,12 +14,26 @@
       "password": "linh662002",
       "confirmPassword": "linh662002",
       "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
-      "id": 2,
-      "loggedIn": true
+      "id": 2
+    },
+    {
+      "userName": "linh66",
+      "email": "fakeroi66@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 3
+    },
+    {
+      "userName": "linh62",
+      "email": "glennisagani88@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 5
     }
   ],
-  "userLogged": [],
-  "usersLogged": [
+  "user": [
     {
       "userName": "Admin",
       "email": "admin@gmail.com",
@@ -36,6 +49,22 @@
       "confirmPassword": "linh662002",
       "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
       "id": 2
+    },
+    {
+      "userName": "linh66",
+      "email": "fakeroi66@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 3
+    },
+    {
+      "userName": "linh62",
+      "email": "linh@gmail.com",
+      "password": "linh662002",
+      "confirmPassword": "linh662002",
+      "image": "https://phongreviews.com/wp-content/uploads/2022/11/avatar-facebook-mac-dinh-12.jpg",
+      "id": 4
     }
   ],
   "products": [
@@ -44,11 +73,9 @@
       "model": "iPhone 15 Pro Max (256GB) - Chính hãng VN/A",
       "price": "33,690,000",
       "image": "https://cdn.hoanghamobile.com/i/productlist/ts/Uploads/2023/09/13/iphone-15-pro-max-natural-titanium-pure-back-iphone-15-pro-max-natural-titanium-pure-front-2up-screen-usen-1.png",
-      "reseller": true,
       "type": "phone",
       "quantity": "2",
-      "id": 1,
-      "category": "iPhone 15 Pro Max"
+      "id": 1
     },
     {
       "brand": "Apple",
@@ -1340,5 +1367,6 @@
       "type": "phone",
       "quantity": "2"
     }
-  ]
+  ],
+  "cart": []
 }

@@ -25,11 +25,16 @@ import phoneCase from "../../../assets/images/icons/back-camera.png";
 import phoneScreenProtector from "../../../assets/images/icons/smartphone.png";
 import gimbal from "../../../assets/images/icons/gimbal.png";
 import AddToCartBtn from "../../others/AddToCartBtn";
+import Slider from "react-slick";
+import { cartAction, fetchCart, postCart } from "../../../redux/cartSlice";
+import { useNavigate } from "react-router-dom";
 // import nhh from "../../assets/images/customer/vdv-nguyen-huy-hoang.jpg";
 
 function Article() {
   const products = useSelector((state) => state.products.products);
   const status = useSelector((state) => state.products.status);
+  const cart = useSelector((state) => state.cart.cart);
+
   // console.log(products);
 
   const dispatch = useDispatch();
@@ -37,9 +42,13 @@ function Article() {
   const [addToCart, setAddoCart] = useState(false);
 
   const [id, setId] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchProducts());
+  }, []);
+  useEffect(() => {
+    // dispatch(fetchCart());
   }, []);
 
   if (status === "Loading") {
@@ -64,6 +73,20 @@ function Article() {
       prominentSpeakersHeadphones.push(element);
     }
   });
+  const settings = {
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    dots: true,
+    infinite: true,
+    // slidesToShow: 3,
+    // slidesToScroll: 1,
+    // autoplay: true,
+    // speed: 2000,
+    // autoplaySpeed: 2000,
+    // cssEase: "linear",
+  };
 
   return (
     <div style={{ backgroundColor: "#fafafa" }}>
@@ -88,208 +111,48 @@ function Article() {
         >
           CÓ THỂ BẠN SẼ THÍCH
         </div>
-        <Carousel data-bs-theme="dark" className="carousel">
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index <= 4) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md relative"
-                      )}
-                      key={element.id}
-                      onMouseEnter={() => {
-                        setAddoCart(true);
-                        setId(element.id);
-                      }}
-                      onMouseLeave={() => {
-                        setAddoCart(false);
-                        setId("");
-                      }}
-                    >
-                      <div>
-                        <img src={element.image} alt="This is a image" />
-                        <p>{element.model}</p>
-                      </div>
-                      <p>{element.price} ₫</p>
-                      {addToCart === true && id === element.id ? (
-                        <div
-                          className={clsx(
-                            styles.addToCartBtn,
-                            "absolute opacity-75"
-                          )}
-                        >
-                          <button
-                            onClick={() => {
-                              setId(element.id);
-                            }}
-                          >
-                            Thêm vào giỏ hàng
-                          </button>
-                        </div>
-                      ) : (
-                        <></>
-                      )}
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 1 && index <= 5) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img
-                        className="d-block"
-                        src={element.image}
-                        alt="This is a image"
-                      />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 2 && index <= 6) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 3 && index <= 7) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 4 && index <= 8) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 5 && index <= 9) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {mayBeLikeProduct.map((element, index) => {
-                if (index >= 6 && index <= 10) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-        </Carousel>
-        <Carousel.Item>
-          <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-            {mayBeLikeProduct.map((element, index) => {
-              if (index >= 7 && index <= 11) {
-                return (
-                  <li
-                    className={clsx(
-                      styles.item,
-                      "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                    )}
-                    key={element.id}
+        <ul className="p-0 pt-2 m-0 ">
+          <Slider {...settings} className={styles.slider}>
+            {mayBeLikeProduct.map((element) => (
+              <li
+                className={clsx(
+                  styles.item,
+                  "list-none p-2 m-px mx-4 my-2 border rounded shadow-md relative"
+                )}
+                key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
+              >
+                <div>
+                  <img src={element.image} alt="This is a image" />
+                  <p>{element.model}</p>
+                </div>
+                <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
                   >
-                    <img src={element.image} alt="This is a image" />
-                    <p>{element.model}</p>
-                    <p>{element.price} ₫</p>
-                  </li>
-                );
-              }
-            })}
-          </ul>
-        </Carousel.Item>
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
+                    >
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </li>
+            ))}
+          </Slider>
+        </ul>
       </div>
       <div
         className={clsx(styles.phone, styles.appleReseller, "rounded mt-3.5")}
@@ -304,13 +167,39 @@ function Article() {
                 <li
                   className={clsx(
                     styles.item,
-                    "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                    "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                   )}
                   key={element.id}
+                  onMouseEnter={() => {
+                    setAddoCart(true);
+                    setId(element.id);
+                  }}
+                  onMouseLeave={() => {
+                    setAddoCart(false);
+                    setId("");
+                  }}
                 >
                   <img src={element.image} alt="This is a image" />
                   <p>{element.model}</p>
                   <p>{element.price} ₫</p>
+                  {addToCart === true && id === element.id ? (
+                    <div
+                      className={clsx(
+                        styles.addToCartBtn,
+                        "absolute opacity-75"
+                      )}
+                    >
+                      <button
+                        onClick={() => {
+                          dispatch(cartAction.addToCart(element));
+                        }}
+                      >
+                        Thêm vào giỏ hàng
+                      </button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </li>
               );
             }
@@ -330,7 +219,7 @@ function Article() {
             <li>TECNO POVA 5</li>
             <li>Redmi Note 12</li>
             <li>Samsung Galaxy S23</li>
-            <li>Xem tất cả</li>
+            <li onClick={() => navigate("/phones")}>Xem tất cả</li>
           </ul>
         </div>
         <ul className="p-0 pt-2 m-0 flex flex-wrap justify-evenly">
@@ -340,13 +229,39 @@ function Article() {
                 <li
                   className={clsx(
                     styles.item,
-                    "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                    "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                   )}
                   key={element.id}
+                  onMouseEnter={() => {
+                    setAddoCart(true);
+                    setId(element.id);
+                  }}
+                  onMouseLeave={() => {
+                    setAddoCart(false);
+                    setId("");
+                  }}
                 >
                   <img src={element.image} alt="This is a image" />
                   <p>{element.model}</p>
                   <p>{element.price} ₫</p>
+                  {addToCart === true && id === element.id ? (
+                    <div
+                      className={clsx(
+                        styles.addToCartBtn,
+                        "absolute opacity-75"
+                      )}
+                    >
+                      <button
+                        onClick={() => {
+                          dispatch(cartAction.addToCart(element));
+                        }}
+                      >
+                        Thêm vào giỏ hàng
+                      </button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </li>
               );
             }
@@ -368,134 +283,48 @@ function Article() {
         >
           LOA - TAI NGHE NỔI BẬT
         </div>
-        <Carousel data-bs-theme="dark" className="carousel">
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index <= 4) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
+        <ul className="p-0 pt-2 m-0 ">
+          <Slider {...settings} className={styles.slider}>
+            {prominentSpeakersHeadphones.map((element) => (
+              <li
+                className={clsx(
+                  styles.item,
+                  "list-none p-2 m-px mx-4 my-2 border rounded shadow-md relative"
+                )}
+                key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
+              >
+                <div>
+                  <img src={element.image} alt="This is a image" />
+                  <p>{element.model}</p>
+                </div>
+                <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
+                  >
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
                     >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index >= 1 && index <= 5) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index >= 2 && index <= 6) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index >= 3 && index <= 7) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index >= 4 && index <= 8) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-          <Carousel.Item>
-            <ul className="p-0 pt-2 m-0 flex flex-wrap justify-center ">
-              {prominentSpeakersHeadphones.map((element, index) => {
-                if (index >= 5 && index <= 9) {
-                  return (
-                    <li
-                      className={clsx(
-                        styles.item,
-                        "list-none p-2 m-px mx-1 my-1.5 border rounded shadow-md "
-                      )}
-                      key={element.id}
-                    >
-                      <img src={element.image} alt="This is a image" />
-                      <p>{element.model}</p>
-                      <p>{element.price} ₫</p>
-                    </li>
-                  );
-                }
-              })}
-            </ul>
-          </Carousel.Item>
-        </Carousel>
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </li>
+            ))}
+          </Slider>
+        </ul>
       </div>
       <div
         className={clsx(
@@ -518,13 +347,39 @@ function Article() {
                 <li
                   className={clsx(
                     styles.item,
-                    "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                    "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                   )}
                   key={element.id}
+                  onMouseEnter={() => {
+                    setAddoCart(true);
+                    setId(element.id);
+                  }}
+                  onMouseLeave={() => {
+                    setAddoCart(false);
+                    setId("");
+                  }}
                 >
                   <img src={element.image} alt="This is a image" />
                   <p>{element.model}</p>
                   <p>{element.price} ₫</p>
+                  {addToCart === true && id === element.id ? (
+                    <div
+                      className={clsx(
+                        styles.addToCartBtn,
+                        "absolute opacity-75"
+                      )}
+                    >
+                      <button
+                        onClick={() => {
+                          dispatch(cartAction.addToCart(element));
+                        }}
+                      >
+                        Thêm vào giỏ hàng
+                      </button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </li>
               );
             }
@@ -570,7 +425,7 @@ function Article() {
             <img src={chargerCable} />
             <p>Củ sạc - Dây cáp</p>
           </div>
-          <div>
+          <div onClick={()=>navigate("/phones/apple")}>
             <img src={apple} />
             <p>Apple</p>
           </div>

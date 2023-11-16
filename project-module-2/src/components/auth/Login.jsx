@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { Link } from "react-router-dom";
@@ -9,22 +9,18 @@ import styles from "../styles/Login.module.css";
 import image from "../../assets/images/logos/Logo.png";
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers, userAction } from "../../redux/userSlice";
-import { fetchUserLogged, postUserLogged } from "../../redux/userLoggedSlice";
+import { fetchUsers } from "../../redux/userSlice";
+import { fetchUser, loginUser, putUser } from "../../redux/authSlice";
 
 function Login() {
   const users = useSelector((state) => state.users.users);
-  // console.log(users);
-  // const userLogged = useSelector((state) => state.users.userLogged);
-
-  // const activeUser = [userLogged];
-
-  // console.log(activeUser);
+  const user = useSelector((state) => state.user.user);
+  const location = useLocation();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchUsers());
-    // dispatch(fetchUserLogged());
+    dispatch(fetchUser());
   }, [dispatch]);
 
   const navigate = useNavigate();
@@ -32,7 +28,6 @@ function Login() {
     initialValues: {
       userName: "",
       password: "",
-      // loggedIn: true,
     },
     validationSchema: Yup.object({
       userName: Yup.string().required("Không để trống phần này!"),
@@ -40,47 +35,48 @@ function Login() {
     }),
     onSubmit: async (values) => {
       try {
-        // const reponse = await axios.get("http://localhost:8000/users");
-        // let users = reponse.data;
-        // console.log(users);
         const isUser = users.find(
           (user) =>
             (user.userName === values.userName ||
               user.email === values.userName) &&
             user.password === values.password
         );
-        // users.map((user) => {
-        //   if (isUser) {
-        //     setActiveUser({
-        //       id: user.id,
-        //       userName: user.userName,
-        //       email: user.email,
-        //       image: user.image,
-        //       password: user.password,
-        //       confirmPassword: user.confirmPassword,
-        //     });
-        //   }
-        // });
-        // console.log(activeUser.id);
 
-        dispatch(
-          userAction.login({
-            userName: values.userName,
-            password: values.password,
-            loggedIn: true,
-          })
-        );
+        const existed = user.find((key) => key.userName === values.userName);
 
-
+        const empty = user.filter((key) => key.userName === values.userName);
+        console.log(existed, "existed");
+        console.log(empty);
 
         if (isUser && values.userName !== "Admin") {
           toast.success("Đăng nhập thành công!");
-          navigate("/");
-          // dispatch(postUserLogged(activeUser));
+          // if (empty.length < 0) {
+          //   dispatch(loginUser(isUser));
+          // }
+          // console.log(location);
+
+          if (empty.length <= 0 && existed === undefined) {
+            dispatch(loginUser(isUser));
+          }
+          if (existed) {
+            dispatch(putUser({ existed, id: existed.id }));
+          }
+          if (location?.state) {
+            navigate(location?.state);
+          } else {
+            navigate("/");
+          }
+          // dispatch(loginUser(isUser));
         } else if (isUser && values.userName === "Admin") {
           toast.success("Đăng nhập thành công!");
+          if (existed) {
+            dispatch(putUser({ existed, id: existed.id }));
+          }
+          if (empty.length < 0) {
+            dispatch(loginUser(isUser));
+          }
           navigate("/admin");
-          // dispatch(postUserLogged(activeUser));
+          // dispatch(loginUser(isUser));
         } else {
           toast.error("Đăng nhập thất bại!");
         }

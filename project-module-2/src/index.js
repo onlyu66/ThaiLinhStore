@@ -9,8 +9,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { BrowserRouter } from "react-router-dom";
 import store from "./redux/store";
 import { Provider } from "react-redux";
+// import { cartAction } from "./redux/cartSlice";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+// store.dispatch(cartAction.getTotals());
 root.render(
   <Provider store={store}>
     <BrowserRouter>

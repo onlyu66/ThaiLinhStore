@@ -9,19 +9,22 @@ import service from "../../assets/images/icons/service.png";
 import hotNews from "../../assets/images/icons/hot-news.png";
 import incentive from "../../assets/images/icons/incentive.png";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Menu() {
+  const navigate = useNavigate();
   return (
     <div>
       <ul className={clsx(styles.menuContainer, "rounded")}>
         <li className={clsx(styles.itemContainer, styles.itemContainer1)}>
-          <Link to="/phones">
-            <div className={clsx(styles.item, styles.item1)}>
-              <img className={styles.img} src={phone} alt="" />
-              <span>ĐIỆN THOẠI</span>
-            </div>
-          </Link>
+          <div
+            className={clsx(styles.item, styles.item1)}
+            onClick={() => navigate("/phones")}
+          >
+            <img className={styles.img} src={phone} alt="" />
+            <span>ĐIỆN THOẠI</span>
+          </div>
+
           <div className={styles.subMenu1}>
             <div className={styles.subMenu11}>
               <table>
@@ -34,9 +37,7 @@ function Menu() {
                   <tr>
                     <td>
                       <ul>
-                        <li>
-                          <Link to="/phones/apple">Apple</Link>
-                        </li>
+                        <li onClick={() => navigate("/phones/apple")}>Apple</li>
                         <li>Oppo</li>
                         <li>Realme</li>
                         <li>Infinix</li>
@@ -80,12 +81,13 @@ function Menu() {
           </div>
         </li>
         <li className={styles.itemContainer}>
-          <Link to="/phones/apple">
-            <div className={clsx(styles.item)}>
-              <img className={styles.img} src={apple} alt="" />
-              <span style={{ padding: "0px 6px" }}>APPLE</span>
-            </div>
-          </Link>
+          <div
+            className={clsx(styles.item)}
+            onClick={() => navigate("/phones/apple")}
+          >
+            <img className={styles.img} src={apple} alt="" />
+            <span style={{ padding: "0px 6px" }}>APPLE</span>
+          </div>
         </li>
         <li className={clsx(styles.itemContainer, styles.itemContainer1)}>
           <div className={styles.item}>

@@ -1,44 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
 import styles from "../../styles/Admin.module.css";
 import clsx from "clsx";
 import { Input } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUsers, patchUsers } from "../../../redux/userSlice";
 import { BsJustify } from "react-icons/bs";
-import {
-  fetchUsersLogged,
-  postUsersLogged,
-} from "../../../redux/usersLoggedSlice";
+
+import { useEffect, useState } from "react";
+import { fetchUser } from "../../../redux/authSlice";
 
 function AdminHeader({ selectItem, OpenSidebar }) {
-  const users = useSelector((state) => state.users.users);
+  const [isAdmin, setIsAdmin] = useState(null);
+  // console.log(isAdmin);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  //   const [searchInput, setSearchInput] = useState("");
-  // const inputRef = useRef("");
-  // const searchProduct = () => {};
-
-  const userLogged = useSelector((state) => state.users.userLogged);
-  // console.log(userLogged);
-  const [updateUser, setUpdateUser] = useState("");
-  // console.log(updateUser, "update");
-
-  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
-  // console.log(usersLogged);
-
-
   useEffect(() => {
-    dispatch(fetchUsers());
-
-    setUpdateUser(users.find((user) => user.userName === userLogged.userName));
-
-    if (updateUser) {
-      dispatch(patchUsers({ userLogged, id: updateUser.id }));
-      dispatch(postUsersLogged(updateUser));
-    }
-    dispatch(fetchUsersLogged());
-  }, [updateUser]);
-
-  const isAdmin = usersLogged.find((key) => key.userName === "Admin");
+    setIsAdmin(JSON.parse(localStorage.getItem("user")));
+    dispatch(fetchUser());
+  }, [user]);
 
   return (
     <div className={clsx(styles.header, "flex justify-between p-3")}>

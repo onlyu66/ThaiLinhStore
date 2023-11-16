@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Carousel from "react-bootstrap/Carousel";
 import clsx from "clsx";
 import styles from "../../../../../styles/Apple.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import {
   productAction,
 } from "../../../../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
+import { cartAction } from "../../../../../../redux/cartSlice";
 
 function Iphone15Series() {
   const imgs = [
@@ -41,8 +42,13 @@ function Iphone15Series() {
         phone.category === "iPhone 15 Pro Max")
   );
 
-  const [category, setCategory] = useState("");
   const [rangePrice, setRangePrice] = useState("");
+
+  const [addToCart, setAddoCart] = useState(false);
+
+  const [id, setId] = useState("");
+
+  const navigate = useNavigate();
 
   const phonesPerPage = useSelector((state) => state.products.phonesPerPage);
   const currentPage = useSelector((state) => state.products.currentPage);
@@ -89,11 +95,11 @@ function Iphone15Series() {
         return true;
       }
     });
-  } else if (rangePrice === "15_20")  {
+  } else if (rangePrice === "15_20") {
     temp = phones.filter((phone) => {
       let price = Math.floor(phone.price.split(",").join("")) / 1000000;
       if (price >= 15 && price < 20) {
-        return true;           
+        return true;
       }
     });
   } else if (rangePrice === "20_100") {
@@ -310,7 +316,9 @@ function Iphone15Series() {
         <Breadcrumb.Item onClick={() => setRangePrice("")}>
           <Link to="/phones">Điện thoại</Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Item><Link to="/phones/apple">Apple</Link></Breadcrumb.Item>
+        <Breadcrumb.Item>
+          <Link to="/phones/apple">Apple</Link>
+        </Breadcrumb.Item>
         <Breadcrumb.Item>iPhone 15 Series</Breadcrumb.Item>
       </Breadcrumb>
       <div className={clsx(styles.filter, "flex justify-evenly ")}>
@@ -324,22 +332,46 @@ function Iphone15Series() {
             <ul className={clsx(styles.subCategory, "p-0")}>
               <li>
                 <ul className="p-0">
-                  <li><Link to="/phones/apple/iPhone15Series/iPhone15">iPhone 15</Link></li>
+                  <li
+                    onClick={() =>
+                      navigate("/phones/apple/iPhone15Series/iPhone15")
+                    }
+                  >
+                    iPhone 15
+                  </li>
                 </ul>
               </li>
               <li>
                 <ul className="p-0">
-                  <li><Link to="/phones/apple/iPhone15Series/iPhone15Plus">iPhone 15 Plus</Link></li>
+                  <li
+                    onClick={() =>
+                      navigate("/phones/apple/iPhone15Series/iPhone15Plus")
+                    }
+                  >
+                    iPhone 15 Plus
+                  </li>
                 </ul>
               </li>
               <li>
                 <ul className="p-0">
-                  <li><Link to="/phones/apple/iPhone15Series/iPhone15Pro">iPhone 15 Pro</Link></li>
+                  <li
+                    onClick={() =>
+                      navigate("/phones/apple/iPhone15Series/iPhone15Pro")
+                    }
+                  >
+                    iPhone 15 Pro
+                  </li>
                 </ul>
               </li>
               <li>
                 <ul className="p-0">
-                  <li><Link to="/phones/apple/iPhone15Series/iPhone15Promax">iPhone 15 Pro Max</Link></li>
+                  <li
+                    onClick={() =>
+                      navigate("/phones/apple/iPhone15Series/iPhone15Promax")
+                    }
+                  >
+                    iPhone 15 Pro Max
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -430,7 +462,7 @@ function Iphone15Series() {
           </li>
         </ul>
       </div>
-      <h4 className="mt-2">iPhone</h4>
+      <h4 className="mt-2">iPhone 15 Series</h4>
       <ul className="p-0 pt-2 m-0 flex flex-wrap justify-evenly">
         {visiblePhones.map((element) => {
           if (element.type === "phone") {
@@ -438,13 +470,38 @@ function Iphone15Series() {
               <li
                 className={clsx(
                   styles.item,
-                  "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                  "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                 )}
                 key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
               >
-                <img src={element.image} alt="This is a image" />
-                <p>{element.model}</p>
+                <div>
+                  <img src={element.image} alt="This is a image" />
+                  <p>{element.model}</p>
+                </div>
                 <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
+                  >
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
+                    >
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </li>
             );
           }

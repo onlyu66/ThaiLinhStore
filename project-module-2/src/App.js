@@ -15,9 +15,12 @@ import Iphone15Pro from "./components/layouts/Article/Phones/Apple/iPhone15Serie
 import Iphone15Promax from "./components/layouts/Article/Phones/Apple/iPhone15Series/Iphone15Promax";
 import Samsung from "./components/layouts/Article/Phones/Samsung";
 import SearchResult from "./components/layouts/Article/SearchResult";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 function App() {
   return (
     <div>
+      <ToastContainer/>
       <Routes>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>

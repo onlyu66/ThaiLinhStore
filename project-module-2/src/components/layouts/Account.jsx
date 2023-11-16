@@ -1,37 +1,19 @@
 import React, { useEffect, useState } from "react";
 import "../styles/Account.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchUsersLogged,
-  postUsersLogged,
-} from "../../redux/usersLoggedSlice";
-import { fetchUsers, patchUsers, userAction } from "../../redux/userSlice";
+import { authAction, fetchUser } from "../../redux/authSlice";
 
 function Account() {
-  const users = useSelector((state) => state.users.users);
+  const [isUser, setIsUser] = useState(null);
+  // console.log(isUser);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-
-  const userLogged = useSelector((state) => state.users.userLogged);
-
-  const [updateUser, setUpdateUser] = useState("");
-  console.log(updateUser, "update");
-
-  const usersLogged = useSelector((state) => state.usersLogged.usersLogged);
-
+  // const navigate = useNavigate();
   useEffect(() => {
-    dispatch(fetchUsers());
-
-    setUpdateUser(users.find((user) => user.userName === userLogged.userName));
-
-    if (updateUser) {
-      dispatch(patchUsers({ userLogged, id: updateUser.id }));
-      dispatch(postUsersLogged(updateUser));
-    }
-    dispatch(fetchUsersLogged());
-  }, [updateUser]);
-
-  const isUser = usersLogged.find((key) => key.userName !== "Admin");
+    setIsUser(JSON.parse(localStorage.getItem("user")));
+    dispatch(fetchUser());
+  }, [user]);
 
   return (
     <div className="lr lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6 px-4">
@@ -48,11 +30,8 @@ function Account() {
           <i class="fa-solid fa-caret-down mt-1 ml-1"></i>
           <button
             onClick={() => {
-              // setUpdateUser(user);
-              // userLogged = updateUser;
-              // dispatch(patchUsers({ user, id: id }));
-              dispatch(userAction.logout());
-              // localStorage.removeItem("userLogged");
+              dispatch(authAction.logout());
+              // navigate("/login");
             }}
           >
             Đăng xuất

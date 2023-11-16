@@ -60,7 +60,7 @@
   left: -515px;
   border-radius: 7px;
 }
-.subPrice li ul li  {
+.subPrice li ul li {
   font-size: 15.5px;
   color: #044a47;
 }
@@ -89,4 +89,23 @@
   font-weight: 700;
   color: rgb(254, 27, 27);
   font-size: 19px;
+}
+.addToCartBtn {
+  background-color: rgb(232, 232, 232);
+  top: 50px;
+  left: 1px;
+  width: 226px;
+  height: 122px;
+}
+.addToCartBtn button {
+  background-color: rgb(253, 251, 251);
+  border: 2px solid #208f89;
+  padding: 8px;
+  margin-top: 40px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+.addToCartBtn button:hover {
+  background-color: #208f89;
+  color: #ffffff;
 }

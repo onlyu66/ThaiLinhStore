@@ -10,6 +10,8 @@ import styles from "../../../styles/UsersManagement.module.css";
 import clsx from "clsx";
 // import { Link } from "react-router-dom";
 import Pagination from "react-bootstrap/Pagination";
+import Button from "react-bootstrap/Button";
+import UserForm from "./UserForm";
 // import Button from "react-bootstrap/Button";
 // import { Switch } from "antd";
 // import { Select } from "antd";
@@ -41,7 +43,7 @@ function UsersManagement({ selectItem }) {
   const users = useSelector((state) => state.users.users);
   const status = useSelector((state) => state.users.status);
   // console.log(users);
-  // const [selectUser, setSelectUser] = useState("");
+  const [selectUser, setSelectUser] = useState("");
 
   const [modalShow, setModalShow] = useState(false);
 
@@ -101,7 +103,20 @@ function UsersManagement({ selectItem }) {
           </select>
         </div>
         <div>
-        
+          <Button
+            variant="primary"
+            onClick={() => setModalShow(!modalShow)}
+            className={clsx(styles.button, "!bg-neutral-900 !text-white")}
+          >
+            {selectUser ? "Update User" : "Add User"}
+          </Button>
+
+          <UserForm
+            show={modalShow}
+            onHide={() => setModalShow(!modalShow)}
+            modalShow={modalShow}
+            setModalShow={setModalShow}
+          />
         </div>
       </div>
       <table

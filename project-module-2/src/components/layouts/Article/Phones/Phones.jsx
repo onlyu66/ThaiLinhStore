@@ -3,7 +3,7 @@ import Carousel from "react-bootstrap/Carousel";
 import clsx from "clsx";
 import styles from "../../../styles/Phones.module.css";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
@@ -11,6 +11,7 @@ import {
   sspProducts,
 } from "../../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
+import { cartAction } from "../../../../redux/cartSlice";
 
 function Phones() {
   const imgs = [
@@ -41,6 +42,12 @@ function Phones() {
   const [sortTypeName, setSortTypeName] = useState("");
   console.log(sortType);
   console.log(sortTypeName);
+
+  const navigate = useNavigate();
+
+  const [addToCart, setAddoCart] = useState(false);
+
+  const [id, setId] = useState("");
 
   const phonesPerPage = useSelector((state) => state.products.phonesPerPage);
   const currentPage = useSelector((state) => state.products.currentPage);
@@ -85,64 +92,64 @@ function Phones() {
   let count20_100 = 0;
 
   for (let i = 0; i < phones.length; i++) {
-      if (phones[i].brand === "Samsung") {
-        countSamsung++;
-      }
-      if (phones[i].brand === "Vivo") {
-        countVivo++;
-      }
-      if (phones[i].brand === "Itel") {
-        countItel++;
-      }
-      if (phones[i].brand === "Philips") {
-        countPhilips++;
-      }
-      if (phones[i].brand === "Apple") {
-        countApple++;
-      }
-      if (phones[i].brand === "Nokia") {
-        countNokia++;
-      }
-      if (phones[i].brand === "HONOR") {
-        countHonor++;
-      }
-      if (phones[i].brand === "Asus") {
-        countAsus++;
-      }
-      if (
-        phones[i].brand === "Xiaomi" ||
-        phones[i].brand === "Redmi" ||
-        phones[i].brand === "POCO"
-      ) {
-        countXiaomi++;
-      }
-      if (phones[i].brand === "Realme") {
-        countRealme++;
-      }
-      if (phones[i].brand === "XOR") {
-        countXor++;
-      }
-      if (phones[i].brand === "Huawei") {
-        countHuawei++;
-      }
-      if (phones[i].brand === "OPPO") {
-        countOppo++;
-      }
-      if (phones[i].brand === "TCL") {
-        countTcl++;
-      }
-      if (phones[i].brand === "Nubia") {
-        countNubia++;
-      }
-      if (phones[i].brand === "TECNO") {
-        countTecno++;
-      }
-      if (phones[i].brand === "Infinix") {
-        countInfinix++;
-      }
-      if (phones[i].brand === "HTC") {
-        countHtc++;
-      }
+    if (phones[i].brand === "Samsung") {
+      countSamsung++;
+    }
+    if (phones[i].brand === "Vivo") {
+      countVivo++;
+    }
+    if (phones[i].brand === "Itel") {
+      countItel++;
+    }
+    if (phones[i].brand === "Philips") {
+      countPhilips++;
+    }
+    if (phones[i].brand === "Apple") {
+      countApple++;
+    }
+    if (phones[i].brand === "Nokia") {
+      countNokia++;
+    }
+    if (phones[i].brand === "HONOR") {
+      countHonor++;
+    }
+    if (phones[i].brand === "Asus") {
+      countAsus++;
+    }
+    if (
+      phones[i].brand === "Xiaomi" ||
+      phones[i].brand === "Redmi" ||
+      phones[i].brand === "POCO"
+    ) {
+      countXiaomi++;
+    }
+    if (phones[i].brand === "Realme") {
+      countRealme++;
+    }
+    if (phones[i].brand === "XOR") {
+      countXor++;
+    }
+    if (phones[i].brand === "Huawei") {
+      countHuawei++;
+    }
+    if (phones[i].brand === "OPPO") {
+      countOppo++;
+    }
+    if (phones[i].brand === "TCL") {
+      countTcl++;
+    }
+    if (phones[i].brand === "Nubia") {
+      countNubia++;
+    }
+    if (phones[i].brand === "TECNO") {
+      countTecno++;
+    }
+    if (phones[i].brand === "Infinix") {
+      countInfinix++;
+    }
+    if (phones[i].brand === "HTC") {
+      countHtc++;
+    }
     let price = Math.floor(phones[i].price.split(",").join("")) / 1000000;
     // console.log(phones[i].price.split(",").join(""));
     if (phones[i].type === "phone" && price < 1) {
@@ -2341,9 +2348,7 @@ function Phones() {
             <ul className={clsx(styles.subCategory, "p-0")}>
               <li>
                 <ul className="p-0">
-                  <li>
-                    <Link to="/phones/apple">Apple</Link>
-                  </li>
+                  <li onClick={() => navigate("/phones/apple")}>Apple</li>
                   <li>Nokia</li>
                   <li>Infinix</li>
                   <li>TCL</li>
@@ -2351,9 +2356,7 @@ function Phones() {
               </li>
               <li>
                 <ul className="p-0">
-                  <li>
-                    <Link to="/phones/samsung">Samsung</Link>
-                  </li>
+                  <li onClick={() => navigate("/phones/samsung")}>Samsung</li>
                   <li>Realme</li>
                   <li>ROG</li>
                   <li>Itel</li>
@@ -2619,13 +2622,36 @@ function Phones() {
               <li
                 className={clsx(
                   styles.item,
-                  "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                  "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                 )}
                 key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
               >
                 <img src={element.image} alt="This is a image" />
                 <p>{element.model}</p>
                 <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
+                  >
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
+                    >
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </li>
             );
           }

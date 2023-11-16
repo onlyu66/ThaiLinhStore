@@ -37,7 +37,7 @@ function Search({
         onFocus={handleInputFocus}
       />
       {isDivVisible ? (
-        <div className="absolute z-10 bg-white top-14 w-50 rounded-lg">
+        <div className="absolute z-10 bg-white top-14 rounded-lg" style={{width:"540px"}}>
           <OnFocus
             searchInput={searchInput}
             setSearchInput={setSearchInput}

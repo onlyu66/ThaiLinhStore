@@ -10,6 +10,7 @@ import {
   productAction,
 } from "../../../../../../redux/productSlice";
 import Pagination from "react-bootstrap/Pagination";
+import { cartAction } from "../../../../../../redux/cartSlice";
 
 function Iphone15() {
   const imgs = [
@@ -38,8 +39,12 @@ function Iphone15() {
       phone.category === "iPhone 15"
   );
 
-  const [category, setCategory] = useState("");
+  // const [category, setCategory] = useState("");
   const [rangePrice, setRangePrice] = useState("");
+
+  const [addToCart, setAddoCart] = useState(false);
+
+  const [id, setId] = useState("");
 
   const phonesPerPage = useSelector((state) => state.products.phonesPerPage);
   const currentPage = useSelector((state) => state.products.currentPage);
@@ -358,13 +363,36 @@ function Iphone15() {
               <li
                 className={clsx(
                   styles.item,
-                  "list-none p-2 m-px my-1.5 border rounded shadow-md "
+                  "list-none p-2 m-px my-1.5 border rounded shadow-md relative"
                 )}
                 key={element.id}
+                onMouseEnter={() => {
+                  setAddoCart(true);
+                  setId(element.id);
+                }}
+                onMouseLeave={() => {
+                  setAddoCart(false);
+                  setId("");
+                }}
               >
                 <img src={element.image} alt="This is a image" />
                 <p>{element.model}</p>
                 <p>{element.price} ₫</p>
+                {addToCart === true && id === element.id ? (
+                  <div
+                    className={clsx(styles.addToCartBtn, "absolute opacity-75")}
+                  >
+                    <button
+                      onClick={() => {
+                        dispatch(cartAction.addToCart(element));
+                      }}
+                    >
+                      Thêm vào giỏ hàng
+                    </button>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </li>
             );
           }

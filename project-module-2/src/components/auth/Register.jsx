@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
@@ -8,9 +8,16 @@ import { Link } from "react-router-dom";
 import styles from "../styles/Register.module.css";
 import image from "../../assets/images/logos/Logo.png";
 import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUsers, fetchUsers, patchUsers } from "../../redux/userSlice";
 
 function Register() {
   const navigate = useNavigate();
+  const users = useSelector((state) => state.users.users);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
   const formik = useFormik({
     initialValues: {
       userName: "",
@@ -36,7 +43,13 @@ function Register() {
       axios
         .post("http://localhost:8000/users", values)
         .then((res) => {
-          toast.success("Đăng ký thành công!");
+          const user = users.find((user) => user.userName === values.userName);
+          if (user) {
+            toast.error("Tài khoản đã tồn tại!");
+            // dispatch(patchUsers({user,id: user.id}));
+          } else {
+            toast.success("Đăng ký thành công!");
+          }
           navigate("/login");
         })
         .catch((err) => {

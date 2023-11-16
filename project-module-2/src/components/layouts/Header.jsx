@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
+// import { Dialog, Popover, Tab, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
   MagnifyingGlassIcon,
@@ -7,7 +7,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import "../styles/Header.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logos/Store Logo.png";
 import Search from "../others/Search";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,8 +15,15 @@ import { searchProducts } from "../../redux/productSlice";
 import { Drawer } from "antd";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import clsx from "clsx";
+import Cart from "../others/Cart";
+import { cartAction, fetchCart } from "../../redux/cartSlice";
+import { orderAction } from "../../redux/orderSlice";
 
 export default function Header() {
+  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const user = useSelector((state) => state.user.user);
+  const cart = useSelector((state) => state.cart.cart);
+
   const products = useSelector((state) => state.products.products);
   const [searchInput, setSearchInput] = useState("");
   const [searchedKey, setSearchedKey] = useState([]);
@@ -25,19 +32,52 @@ export default function Header() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const [showOrder, setShowOrder] = useState(false);
+  const handleCloseOrder = () => setShowOrder(false);
+  const handleShowOrder = () => setShowOrder(true);
+
   // console.log(isDivVisible);
   const navigate = useNavigate();
 
+  const location = useLocation();
+
+  // console.log(location);
   const dispatch = useDispatch();
   useEffect(() => {
+    // dispatch(fetchCart());
     dispatch(searchProducts(searchInput));
     localStorage.setItem("searchedKey", JSON.stringify(searchedKey));
+    // localStorage.setItem("searchInput", JSON.stringify(searchInput));
   }, [dispatch, searchedKey]);
   // const [open, setOpen] = useState(false);
+  useEffect(() => {
+    dispatch(cartAction.getTotals());
+  }, [cart, dispatch]);
+  // const [isSearched, setIsSearched] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     setSearchedKey((prevSearchedKey) => [...prevSearchedKey, searchInput]);
+    // setIsSearched(true);
     navigate("/searchResult");
+    // setIsSearched(false);
+    // setSearchInput("");
+  };
+  // console.log(isSearched);
+  const handleClearCart = () => {
+    dispatch(cartAction.clearCart());
+  };
+  const handleOrder = () => {
+    if (!user?.id) {
+      navigate("/login", { state: location?.pathname });
+    } else {
+      dispatch(
+        orderAction.addOrder({
+          order: JSON.parse(localStorage.getItem("cart")),
+          user: JSON.parse(localStorage.getItem("user")),
+        })
+      );
+    }
   };
   return (
     <div className="container">
@@ -92,18 +132,33 @@ export default function Header() {
                   </button>
                 </form>
 
-                <div className="checkOrder">
+                <div className="checkOrder" onClick={handleShowOrder}>
                   <i
                     className="fa-solid fa-truck-fast fa-2x"
                     style={{ color: "white" }}
                   ></i>
                   <p>Kiểm tra đơn hàng</p>
                 </div>
+                <Offcanvas
+                  show={showOrder}
+                  onHide={handleCloseOrder}
+                  placement="end"
+                  className="w-50 rounded-lg"
+                >
+                  <Offcanvas.Header className="headerCart" closeButton>
+                    <Offcanvas.Title className="title">
+                      Đơn hàng của bạn
+                    </Offcanvas.Title>
+                  </Offcanvas.Header>
+                  <Offcanvas.Body className="bodyCart">
+                    <Cart handleCloseOrder={handleCloseOrder} />
+                  </Offcanvas.Body>
+                </Offcanvas>
 
                 {/* Cart */}
-                <div className="ml-1 flow-root lg:ml-6">
+                <div className="ml-1 flow-root lg:ml-6 group">
                   <button
-                    className="group flex items-center p-2"
+                    className=" flex items-center p-2"
                     onClick={handleShow}
                   >
                     <ShoppingBagIcon
@@ -111,7 +166,7 @@ export default function Header() {
                       aria-hidden="true"
                     />
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800 quantity">
-                      0
+                      {totalQuantity}
                     </span>
                   </button>
                   <Offcanvas
@@ -125,11 +180,27 @@ export default function Header() {
                         Giỏ hàng
                       </Offcanvas.Title>
                     </Offcanvas.Header>
-                    <Offcanvas.Body className="bodyCart"></Offcanvas.Body>
-                    <div className="flex footerCart">
-                      <button className="flex-1">Xoá</button>
-                      <button className="flex-1">Thanh toán</button>
-                    </div>
+                    <Offcanvas.Body className="bodyCart">
+                      <Cart handleClose={handleClose} />
+                    </Offcanvas.Body>
+                    {totalQuantity !== 0 ? (
+                      <div className="flex footerCart">
+                        <button
+                          className="flex-1"
+                          onClick={() => handleClearCart()}
+                        >
+                          Xoá giỏ hàng
+                        </button>
+                        <button
+                          className="flex-1"
+                          onClick={() => handleOrder()}
+                        >
+                          Đặt hàng
+                        </button>
+                      </div>
+                    ) : (
+                      <></>
+                    )}
                   </Offcanvas>
                 </div>
               </div>
